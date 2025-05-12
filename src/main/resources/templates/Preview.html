@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gilbert</title>
+    <style>
+        :root {
+            --dark-green: #004224;
+            --off-white: #f8f0e5;
+            --dark-brown: #423a26;
+            --white: #f8f0e5;
+            --light-green: #0a5a36;
+            --light-brown: #5a4e35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            background-color: var(--off-white);
+            color: var(--dark-green);
+        }
+
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            min-height: 100vh;
+            position: relative;
+            background: var(--white);
+        }
+
+        .app-navbar {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .app-menu, .app-user {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .search-container {
+            padding: 16px;
+            position: relative;
+        }
+
+        .search-bar {
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            border-radius: 0px;
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .search-bar input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 8px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            background: none;
+            border: none;
+            color: var(--dark-green);
+            cursor: pointer;
+        }
+
+        .category-filters {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 16px;
+            scrollbar-width: none;
+        }
+
+        .category-filters::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-pill {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 0px;
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .gender-tabs {
+            display: flex;
+            margin: 0 16px;
+            border-bottom: 1px solid #e0e0e0;
+            gap: 20px;
+        }
+
+        .gender-tab {
+            padding: 12px 0;
+            font-weight: 600;
+            cursor: pointer;
+            color: var(--dark-green);
+            position: relative;
+        }
+
+        .gender-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--dark-green);
+        }
+
+        .featured-section {
+            padding: 20px 16px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--dark-green);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: 0px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .product-img {
+            height: 200px;
+            position: relative;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .verified-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--dark-green);
+            color: var(--white);
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 0px;
+            font-weight: 600;
+        }
+
+        .product-info {
+            padding: 12px;
+        }
+
+        .product-brand {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--dark-green);
+        }
+
+        .product-name {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+
+        .product-price {
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--dark-green);
+        }
+
+        .product-condition {
+            background-color: var(--dark-brown);
+            color: var(--white);
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 0px;
+        }
+
+        .app-footer {
+            background-color: var(--dark-green);
+            padding: 16px;
+            position: sticky;
+            bottom: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .footer-btn {
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            text-decoration: none;
+        }
+
+        .footer-icon {
+            font-size: 20px;
+        }
+
+        .sell-btn {
+            background-color: var(--dark-brown);
+            color: var(--white);
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: 0%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+            .app-container {
+                max-width: 1200px;
+                display: grid;
+                grid-template-columns: 250px 1fr;
+                min-height: 100vh;
+            }
+
+            .sidebar {
+                background-color: var(--dark-green);
+                color: var(--white);
+                padding: 20px;
+                height: 100vh;
+                position: sticky;
+                top: 0;
+            }
+
+            .sidebar-logo {
+                font-size: 24px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                margin-bottom: 40px;
+                text-align: center;
+            }
+
+            .sidebar-menu {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .sidebar-menu a {
+                color: var(--white);
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px;
+                border-radius: 0px;
+                transition: background 0.2s;
+            }
+
+            .sidebar-menu a:hover {
+                background-color: var(--light-green);
+            }
+
+            .main-content {
+                padding: 20px;
+                overflow-y: auto;
+            }
+
+            .desktop-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+
+            .desktop-search {
+                width: 400px;
+            }
+
+            .desktop-nav {
+                display: flex;
+                gap: 20px;
+            }
+
+            .desktop-nav a {
+                color: var(--dark-green);
+                text-decoration: none;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .app-footer, .app-navbar {
+                display: none;
+            }
+
+            .sell-btn {
+                bottom: 30px;
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            width: 90%;
+            max-width: 400px;
+            border-radius: 0px;
+            padding: 20px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-green);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark-green);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 0px;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 0px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .primary-btn {
+            background-color: var(--dark-green);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 0px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .secondary-btn {
+            background-color: var(--white);
+            color: var(--dark-green);
+            border: 1px solid var(--dark-green);
+            padding: 10px 20px;
+            border-radius: 0px;
+            font-weight: 600;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* Bidding Section */
+        .bid-section {
+            background-color: var(--white);
+            border-top: 1px solid #e0e0e0;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .bid-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .bid-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .bid-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 0px;
+        }
+
+        .bid-button {
+            background-color: var(--dark-brown);
+            color: var(--white);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .threshold-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Chat Section */
+        .chat-section {
+            margin-top: 20px;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+        }
+
+        .message-container {
+            height: 200px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 0px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 0px;
+            max-width: 70%;
+        }
+
+        .received {
+            background-color: #e0e0e0;
+            align-self: flex-start;
+        }
+
+        .sent {
+            background-color: var(--dark-green);
+            color: var(--white);
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 0px;
+        }
+
+        .send-button {
+            background-color: var(--dark-green);
+            color: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 0%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Verified Business Badge */
+        .business-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 3px 8px;
+            border-radius: 0px;
+            font-size: 10px;
+            margin-left: 5px;
+        }
+
+        .business-badge-icon {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile App View -->
+<div class="app-container">
+    <!-- Mobile Navigation -->
+    <div class="app-navbar">
+        <div class="app-menu">
+            <button class="icon-btn">≡</button>
+        </div>
+        <div class="app-logo">Gilbert</div>
+        <div class="app-user">
+            <button class="icon-btn">🔔</button>
+            <button class="icon-btn">👤</button>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" placeholder="Search brands, items, or categories...">
+            <button>🔍</button>
+        </div>
+    </div>
+
+    <!-- Category Filters -->
+    <div class="category-filters">
+        <div class="filter-pill">All</div>
+        <div class="filter-pill">Clothing</div>
+        <div class="filter-pill">Shoes</div>
+        <div class="filter-pill">Bags</div>
+        <div class="filter-pill">Jewelry</div>
+        <div class="filter-pill">Accessories</div>
+        <div class="filter-pill">Watches</div>
+    </div>
+
+    <!-- Gender Tabs -->
+    <div class="gender-tabs">
+        <div class="gender-tab active">Women</div>
+        <div class="gender-tab">Men</div>
+    </div>
+
+    <!-- Featured Section -->
+    <div class="featured-section">
+        <div class="section-title">Featured Items</div>
+        <div class="product-grid">
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/api/placeholder/200/200" alt="Product">
+                    <div class="verified-badge">Verified</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-brand">Chanel <span class="business-badge">✓ Business</span></div>
+                    <div class="product-name">Classic Flap Bag</div>
+                    <div class="product-meta">
+                        <div class="product-price">$3,500</div>
+                        <div class="product-condition">Excellent</div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/api/placeholder/200/200" alt="Product">
+                </div>
+                <div class="product-info">
+                    <div class="product-brand">Gucci</div>
+                    <div class="product-name">Princeton Loafers</div>
+                    <div class="product-meta">
+                        <div class="product-price">$450</div>
+                        <div class="product-condition">Good</div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/api/placeholder/200/200" alt="Product">
+                    <div class="verified-badge">Verified</div>
+                </div>
+                <div class="product-info">
+                    <div class="product-brand">Rolex <span class="business-badge">✓ Business</span></div>
+                    <div class="product-name">Datejust 36</div>
+                    <div class="product-meta">
+                        <div class="product-price">$6,800</div>
+                        <div class="product-condition">Like New</div>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-img">
+                    <img src="/api/placeholder/200/200" alt="Product">
+                </div>
+                <div class="product-info">
+                    <div class="product-brand">Louis Vuitton</div>
+                    <div class="product-name">Monogram Scarf</div>
+                    <div class="product-meta">
+                        <div class="product-price">$320</div>
+                        <div class="product-condition">Very Good</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal (Hidden by default) -->
+    <div class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Chanel Classic Flap Bag</div>
+                <button class="close-btn">×</button>
+            </div>
+            <div class="product-img">
+                <img src="/api/placeholder/360/360" alt="Product" style="width: 100%; height: auto;">
+            </div>
+            <div class="product-info" style="padding: 15px 0;">
+                <div class="product-brand">Chanel <span class="business-badge">✓ Business</span></div>
+                <div class="product-name">Classic Flap Bag - Black Caviar Leather</div>
+                <div style="margin: 10px 0;">
+                    <span style="font-weight: 600;">Condition:</span> Excellent
+                </div>
+                <div style="margin: 10px 0;">
+                    <span style="font-weight: 600;">Material:</span> Caviar Leather
+                </div>
+                <div style="margin: 10px 0;">
+                    <span style="font-weight: 600;">Size:</span> Medium
+                </div>
+                <div style="margin: 10px 0;">
+                    <span style="font-weight: 600;">Description:</span> Authentic Chanel Classic Flap Bag in black caviar leather with gold hardware. Excellent condition with minimal wear. Includes authenticity card, dust bag, and original box.
+                </div>
+                <div class="product-price" style="font-size: 24px; margin: 15px 0;">$3,500</div>
+
+                <div class="button-group">
+                    <button class="primary-btn">Buy Now</button>
+                    <button class="secondary-btn">Make Offer</button>
+                </div>
+
+                <!-- Bidding Section -->
+                <div class="bid-section">
+                    <div class="bid-header">
+                        <div style="font-weight: 600;">Make an Offer</div>
+                        <div>Min: $2,800</div>
+                    </div>
+                    <div class="bid-input-group">
+                        <input type="text" class="bid-input" placeholder="Enter your offer">
+                        <button class="bid-button">Bid</button>
+                    </div>
+                    <div class="threshold-section">
+                        <input type="checkbox" id="threshold">
+                        <label for="threshold">Set minimum acceptable price</label>
+                    </div>
+                </div>
+
+                <!-- Authentication Option -->
+                <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 0px;">
+                    <div style="font-weight: 600; margin-bottom: 10px;">Authentication Services</div>
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                        <input type="checkbox" id="authentication">
+                        <label for="authentication">Add professional authentication (+$50)</label>
+                    </div>
+                    <div style="font-size: 12px; color: #666;">
+                        Our in-house experts will verify the authenticity of this item before shipment.
+                    </div>
+                </div>
+
+                <!-- Chat Section -->
+                <div class="chat-section">
+                    <div class="chat-header">
+                        <div style="font-weight: 600;">Contact Seller</div>
+                        <div>Typically responds within 2 hours</div>
+                    </div>
+                    <div class="message-container">
+                        <div class="message received">
+                            Hello! I'm interested in your Chanel bag. Is the price negotiable?
+                        </div>
+                        <div class="message sent">
+                            Hi there! I can go down to $3,300 if you're interested.
+                        </div>
+                    </div>
+                    <div class="message-input-group">
+                        <input type="text" class="message-input" placeholder="Type your message...">
+                        <button class="send-button">→</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sell Button -->
+    <button class="sell-btn">+</button>
+
+    <!-- App Footer -->
+    <div class="app-footer">
+        <a href="#" class="footer-btn">
+            <div class="footer-icon">🏠</div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="footer-btn">
+            <div class="footer-icon">🔍</div>
+            <div>Search</div>
+        </a>
+        <a href="#" class="footer-btn">
+            <div class="footer-icon">❤️</div>
+            <div>Favorites</div>
+        </a>
+        <a href="#" class="footer-btn">
+            <div class="footer-icon">💬</div>
+            <div>Messages</div>
+        </a>
+        <a href="#" class="footer-btn">
+            <div class="footer-icon">👤</div>
+            <div>Profile</div>
+        </a>
+    </div>
+</div>
+</body>
+</html>
