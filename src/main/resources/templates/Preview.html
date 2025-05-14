@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script src="https://unpkg.com/feather-icons"></script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gilbert</title>
@@ -594,14 +595,20 @@
     <!-- Mobile Navigation -->
     <div class="app-navbar">
         <div class="app-menu">
-            <button class="icon-btn">≡</button>
+            <button class="icon-btn">
+                <div data-feather="menu"></div>
+            </button>
         </div>
         <div class="app-logo">Gilbert</div>
         <div class="app-user">
-            <button class="icon-btn">🔔</button>
-            <button class="icon-btn">👤</button>
+            <button class="icon-btn">
+                <div data-feather="user"></div>
+            </button>
         </div>
     </div>
+    <script>
+        feather.replace();
+    </script>
 
     <!-- Search Bar -->
     <div class="search-container">
@@ -778,26 +785,29 @@
     <!-- App Footer -->
     <div class="app-footer">
         <a href="#" class="footer-btn">
-            <div class="footer-icon">🏠</div>
+            <div class="footer-icon" data-feather="home"></div>
             <div>Home</div>
         </a>
         <a href="#" class="footer-btn">
-            <div class="footer-icon">🔍</div>
+            <div class="footer-icon" data-feather="search"></div>
             <div>Search</div>
         </a>
         <a href="#" class="footer-btn">
-            <div class="footer-icon">❤️</div>
+            <div class="footer-icon" data-feather="heart"></div>
             <div>Favorites</div>
         </a>
         <a href="#" class="footer-btn">
-            <div class="footer-icon">💬</div>
-            <div>Messages</div>
+            <div class="footer-icon" data-feather="bell"></div>
+            <div>Notifications</div>
         </a>
         <a href="#" class="footer-btn">
-            <div class="footer-icon">👤</div>
+            <div class="footer-icon" data-feather="user"></div>
             <div>Profile</div>
         </a>
     </div>
+    <script>
+        feather.replace();
+    </script>
 </div>
 </body>
 </html>

@@ -1,5 +1,8 @@
-package org.example.gilbertxdheis.infrastucture;
+package org.example.gilbertxdheis.infrastructure;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class JdbcOrderRepository implements CRUDRepository{
     @Override
     public void create(Object entity) {
@@ -17,7 +20,7 @@ public class JdbcOrderRepository implements CRUDRepository{
     }
 
     @Override
-    public void delete(Object o) {
+    public void delete(Object entity) {
 
     }
 
