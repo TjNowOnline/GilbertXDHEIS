@@ -5,6 +5,7 @@ public class User {
     private String username;
     private String email;
     private String password;
+    private String role;
     private boolean isVerified;
     private boolean isAdmin;
 
@@ -16,6 +17,8 @@ public class User {
         this.isVerified = isVerified;
         this.isAdmin = isAdmin;
     }
+
+    public User() {}
 
     public int getUserId() {
         return userId;
@@ -63,6 +66,14 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

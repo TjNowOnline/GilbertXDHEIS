@@ -22,7 +22,7 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
         String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
                 ? "ROLE_" + user.getRole().toUpperCase()
                 : user.getRole();
-        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword(), role);
+        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
         String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
                 ? "ROLE_" + user.getRole().toUpperCase()
                 : user.getRole();
-        jdbcTemplate.update(sql, user.getName(), user.getPassword(), role, user.getEmail());
+        jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), role, user.getEmail());
     }
 
     @Override
@@ -65,8 +65,8 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
     private RowMapper<User> userRowMapper() {
         return (rs, rowNum) -> {
             User user = new User();
-            user.setId(rs.getLong("id"));
-            user.setName(rs.getString("name"));
+            user.setUserId((int) rs.getLong("id"));
+            user.setUsername(rs.getString("name"));
             user.setEmail(rs.getString("email"));
             user.setPassword(rs.getString("password"));
             user.setRole(rs.getString("role"));
@@ -94,6 +94,6 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
         String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
                 ? "ROLE_" + user.getRole().toUpperCase()
                 : user.getRole();
-        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword(), role);
+        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role);
     }
 }
