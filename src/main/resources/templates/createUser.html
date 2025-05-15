@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Profile - Gilbert</title>
+    <style>
+        :root {
+            --dark-green: #004224;
+            --off-white: #f8f0e5;
+            --dark-brown: #423a26;
+            --white: #f8f0e5;
+            --light-green: #0a5a36;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            background-color: var(--off-white);
+            color: var(--dark-green);
+            line-height: 1.6;
+        }
+
+        /* Mobile Container */
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--white);
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* Mobile Navbar */
+        .app-navbar {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .app-menu, .app-user {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* Desktop Container */
+        .container {
+            width: 100%;
+            padding: 0 15px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        /* Desktop Header */
+        header {
+            background-color: var(--dark-green);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--light-green);
+        }
+
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 80%;
+            height: 100%;
+            background-color: var(--dark-green);
+            padding: 20px;
+            z-index: 2000;
+            transition: left 0.3s;
+        }
+
+        .close-menu {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .mobile-nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mobile-nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1999;
+            display: none;
+        }
+
+        /* Form Section */
+        .form-section {
+            padding: 20px 16px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark-green);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--dark-green);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .primary-btn {
+            background-color: var(--dark-green);
+            color: var(--white);
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .primary-btn:hover {
+            background-color: var(--light-green);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Mobile Footer */
+        .app-footer {
+            background-color: var(--dark-green);
+            padding: 16px;
+            position: sticky;
+            bottom: 0;
+            display: flex;
+            justify-content: space-around;
+            z-index: 99;
+        }
+
+        .footer-btn {
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            text-decoration: none;
+        }
+
+        .footer-icon {
+            font-size: 20px;
+        }
+
+        /* Desktop Footer */
+        footer {
+            background-color: var(--dark-brown);
+            color: var(--white);
+            padding: 40px 0;
+        }
+
+        .footer-container {
+            display: grid;
+            gap: 20px;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .footer-about {
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            color: var(--white);
+            font-size: 20px;
+            text-decoration: none;
+        }
+
+        .social-icon:hover {
+            color: var(--light-green);
+        }
+
+        .footer-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .footer-links a:hover {
+            color: var(--light-green);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+        }
+
+        /* Responsive Styles */
+        @media (min-width: 576px) {
+            .app-container, .container {
+                max-width: 540px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .app-container, .container {
+                max-width: 720px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .app-container, .app-navbar, .app-footer {
+                display: none;
+            }
+
+            .container {
+                display: block;
+                max-width: 960px;
+            }
+
+            .form-section {
+                padding: 40px 0;
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .footer-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1140px;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .container, header, footer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Mobile View (Version 2, <1024px) -->
+<div class="app-container">
+    <!-- Mobile Navigation -->
+    <div class="app-navbar">
+        <div class="app-menu">
+            <button class="icon-btn">
+                <div data-feather="menu"></div>
+            </button>
+        </div>
+        <div class="app-logo">Gilbert</div>
+        <div class="app-user">
+            <button class="icon-btn">
+                <div data-feather="user"></div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-section" style="padding: 20px 16px;">
+        <div class="section-title">Create Profile</div>
+        <form action="/users/create" method="post">
+            <div class="form-group">
+                <label for="firstNameMobile" class="form-label">First Name</label>
+                <input type="text" id="firstNameMobile" name="firstName" class="form-input" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="lastNameMobile" class="form-label">Surname</label>
+                <input type="text" id="lastNameMobile" name="lastName" class="form-input" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="emailMobile" class="form-label">Email</label>
+                <input type="email" id="emailMobile" name="email" class="form-input" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="passwordMobile" class="form-label">Password</label>
+                <input type="password" id="passwordMobile" name="password" class="form-input" required aria-required="true" minlength="8">
+            </div>
+            <div class="form-group">
+                <label for="addressMobile" class="form-label">Address</label>
+                <input type="text" id="addressMobile" name="address" class="form-input" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="postalCodeMobile" class="form-label">Postal Code</label>
+                <input type="text" id="postalCodeMobile" name="postalCode" class="form-input" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="businessIdMobile" class="form-label">
+                    Business ID <span style="font-weight: normal; font-size: 14px;">(only if you're a business)</span>
+                </label>
+                <input type="text" id="businessIdMobile" name="business-id" class="form-input">
+            </div>
+            <button type="submit" class="primary-btn">Create Profile</button>
+        </form>
+    </div>
+
+    <!-- App Footer -->
+    <div class="app-footer">
+        <a href="#" class="footer-btn">
+            <div class="footer-icon" data-feather="home"></div>
+            <div>Home</div>
+        </a>
+        <a href="#" class="footer-btn">
+            <div class="footer-icon" data-feather="search"></div>
+            <div>Search</div>
+        </a>
+        <a href="#" class="footer-btn">
+            <div class="footer-icon" data-feather="heart"></div>
+            <div>Favorites</div>
+        </a>
+        <a href="#" class="footer-btn">
+            <div class="footer-icon" data-feather="bell"></div>
+            <div>Notifications</div>
+        </a>
+        <a href="#" class="footer-btn">
+            <div class="footer-icon" data-feather="user"></div>
+            <div>Profile</div>
+        </a>
+    </div>
+</div>
+
+<!-- Desktop View (Version 1, ≥1024px) -->
+<div class="container">
+    <!-- Header -->
+    <header>
+        <nav>
+            <button class="menu-toggle">☰</button>
+            <a href="#" class="logo">Gilbert</a>
+            <div class="nav-menu">
+                <a href="#" class="nav-link">Home</a>
+                <a href="#" class="nav-link">Women</a>
+                <a href="#" class="nav-link">Men</a>
+                <a href="#" class="nav-link">Brands</a>
+            </div>
+            <div class="user-actions">
+                <a href="#" class="footer-btn">
+                    <div class="footer-icon" data-feather="search"></div>
+                    <div>Search</div>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="close-menu">
+            <button class="close-btn">×</button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="#" class="mobile-nav-link">Home</a>
+            <a href="#" class="mobile-nav-link">Women</a>
+            <a href="#" class="mobile-nav-link">Men</a>
+            <a href="#" class="mobile-nav-link">Brands</a>
+            <a href="#" class="mobile-nav-link">My Account</a>
+        </div>
+    </div>
+    <div class="overlay"></div>
+
+    <!-- Form Section -->
+    <section class="form-section" style="padding: 40px 0;">
+        <div class="section-title">Create Profile</div>
+        <form action="/users/create" method="post">
+            <div class="form-group">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" id="firstName" name="firstName" class="form-input" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="lastName" class="form-label">Surname</label>
+                <input type="text" id="lastName" name="lastName" class="form-input" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-input" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-input" required aria-required="true" minlength="8">
+            </div>
+            <div class="form-group">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" id="address" name="address" class="form-input" required aria-required="true">
+            </div>
+
+            <div class="form-group">
+                <label for="postalCode" class="form-label">Postal Code</label>
+                <input type="text" id="postalCode" name="postalCode" class="form-input" required aria-required="true">
+            </div>
+
+            <div class="form-group">
+                <label for="businessId" class="form-label">
+                    Business ID <span style="font-weight: normal; font-size: 14px;">(only if you're a business)</span>
+                </label>
+                <input type="text" id="businessId" name="business-id" class="form-input">
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="primary-btn">Create Profile</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div>
+                <div class="footer-logo">Gilbert</div>
+                <p class="footer-about">Sustainable luxury marketplace for authenticated pre-owned goods.</p>
+                <div class="footer-social">
+                    <i class="fas fa-home"></i> <!-- Solid style home icon -->
+                    <i class="fab fa-facebook"></i> <!-- Brand style Facebook icon -->
+                    <i class="far fa-heart"></i> <!-- Regular style heart icon -->
+                </div>
+            </div>
+            <div>
+                <div class="footer-title">Shop</div>
+                <ul class="footer-links">
+                    <li><a href="#">Women</a></li>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Brands</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-title">Support</div>
+                <ul class="footer-links">
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Returns</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <div class="footer-title">Company</div>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">© 2025 Gilbert. All rights reserved.</div>
+    </footer>
+</div>
+
+<script>
+    feather.replace();
+</script>
+</body>
+</html>

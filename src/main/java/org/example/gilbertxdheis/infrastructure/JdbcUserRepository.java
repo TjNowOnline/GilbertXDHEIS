@@ -88,4 +88,12 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
             return Optional.empty();
         }
     }
+
+    public void save(User user) {
+        String sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+        String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
+                ? "ROLE_" + user.getRole().toUpperCase()
+                : user.getRole();
+        jdbcTemplate.update(sql, user.getName(), user.getEmail(), user.getPassword(), role);
+    }
 }
