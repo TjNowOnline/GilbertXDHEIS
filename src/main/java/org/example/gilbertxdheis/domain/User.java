@@ -1,37 +1,36 @@
 package org.example.gilbertxdheis.domain;
 
 public class User {
-    private Long id;
-    private String name;
+    private int userId;
+    private String username;
     private String email;
     private String password;
-    private String role;
+    private boolean isVerified;
+    private boolean isAdmin;
 
-    public User() {
-    }
-
-    public User(Long id, String name, String email, String password, String role) {
-        this.id = id;
-        this.name = name;
+    public User(int userId, String username, String email, String password, boolean isVerified, boolean isAdmin) {
+        this.userId = userId;
+        this.username = username;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.isVerified = isVerified;
+        this.isAdmin = isAdmin;
     }
 
-    public Long getId() {
-        return id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -50,11 +49,24 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
+    public boolean isVerified() {
+        return isVerified;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    @Override
+    public String toString() {
+        return username + " (" + email + ")";
     }
 }
