@@ -21,7 +21,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Playfair+Display', serif;
         }
 
         body {
@@ -75,7 +75,6 @@
         /* Desktop Container */
         .container {
             width: 100%;
-            padding: 0 15px;
             margin: 0 auto;
             display: none;
         }
@@ -87,17 +86,21 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            width: 100%;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 15px 4%;
+            margin: 0 auto;
+            max-width: 100%;
+            width: 92%;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: clamp(20px, 2.5vw, 24px);
             font-weight: 700;
             color: var(--white);
             text-decoration: none;
@@ -114,14 +117,14 @@
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: clamp(10px, 1.5vw, 20px);
         }
 
         .nav-link {
             color: var(--white);
             text-decoration: none;
             font-weight: 500;
-            font-size: 16px;
+            font-size: clamp(14px, 1.5vw, 16px);
             transition: color 0.3s;
         }
 
@@ -131,7 +134,7 @@
 
         .user-actions {
             display: flex;
-            gap: 15px;
+            gap: clamp(10px, 1.5vw, 15px);
         }
 
         /* Mobile Menu */
@@ -267,33 +270,37 @@
         footer {
             background-color: var(--dark-brown);
             color: var(--white);
-            padding: 40px 0;
+            padding: clamp(20px, 3vw, 40px) 4%;
+            width: 100%;
         }
 
         .footer-container {
             display: grid;
-            gap: 20px;
+            gap: clamp(15px, 2vw, 20px);
+            max-width: 100%;
+            margin: 0 auto;
+            width: 92%;
         }
 
         .footer-logo {
-            font-size: 24px;
+            font-size: clamp(20px, 2.5vw, 24px);
             font-weight: 700;
             margin-bottom: 10px;
         }
 
         .footer-about {
-            font-size: 14px;
+            font-size: clamp(12px, 1.2vw, 14px);
             margin-bottom: 15px;
         }
 
         .footer-social {
             display: flex;
-            gap: 15px;
+            gap: clamp(10px, 1.5vw, 15px);
         }
 
         .social-icon {
             color: var(--white);
-            font-size: 20px;
+            font-size: clamp(18px, 2vw, 20px);
             text-decoration: none;
         }
 
@@ -302,7 +309,7 @@
         }
 
         .footer-title {
-            font-size: 16px;
+            font-size: clamp(14px, 1.5vw, 16px);
             font-weight: 600;
             margin-bottom: 10px;
         }
@@ -318,7 +325,7 @@
         .footer-links a {
             color: var(--white);
             text-decoration: none;
-            font-size: 14px;
+            font-size: clamp(12px, 1.2vw, 14px);
         }
 
         .footer-links a:hover {
@@ -330,7 +337,7 @@
             padding-top: 20px;
             margin-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: 14px;
+            font-size: clamp(12px, 1.2vw, 14px);
         }
 
         /* Responsive Styles */
@@ -357,7 +364,7 @@
 
             .container {
                 display: block;
-                max-width: 960px;
+                max-width: 100%;
             }
 
             .form-section {
@@ -373,7 +380,7 @@
 
         @media (min-width: 1200px) {
             .container {
-                max-width: 1140px;
+                max-width: 100%;
             }
         }
 
@@ -552,9 +559,9 @@
                 <div class="footer-logo">Gilbert</div>
                 <p class="footer-about">Sustainable luxury marketplace for authenticated pre-owned goods.</p>
                 <div class="footer-social">
-                    <i class="fas fa-home"></i> <!-- Solid style home icon -->
-                    <i class="fab fa-facebook"></i> <!-- Brand style Facebook icon -->
-                    <i class="far fa-heart"></i> <!-- Regular style heart icon -->
+                    <i class="fas fa-home"></i>
+                    <i class="fab fa-facebook"></i>
+                    <i class="far fa-heart"></i>
                 </div>
             </div>
             <div>
