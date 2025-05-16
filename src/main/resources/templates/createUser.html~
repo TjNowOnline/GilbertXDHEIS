@@ -384,7 +384,52 @@
         }
     </style>
 </head>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector(".form-container form");
+        const userList = document.getElementById("user-list");
 
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Stop form from refreshing page
+
+            // Get form values
+            const name = form.querySelector('input[placeholder="Name"]').value.trim();
+            const email = form.querySelector('input[placeholder="Email"]').value.trim();
+            const password = form.querySelector('input[placeholder="Password"]').value.trim();
+            const profileImage = form.querySelector('input[type="file"]').files[0];
+
+            if (!name || !email || !password) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Create user list item
+            const li = document.createElement("li");
+            li.textContent = `${name} (${email})`;
+
+            // If profile image is selected, show a preview
+            if (profileImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.alt = name + "'s profile image";
+                    img.style.width = "40px";
+                    img.style.height = "40px";
+                    img.style.borderRadius = "50%";
+                    img.style.marginLeft = "10px";
+                    li.appendChild(img);
+                };
+                reader.readAsDataURL(profileImage);
+            }
+
+            userList.appendChild(li);
+
+            // Clear form fields
+            form.reset();
+        });
+    });
+</script>
 <body>
 <!-- Mobile View (Version 2, <1024px) -->
 <div class="app-container">
