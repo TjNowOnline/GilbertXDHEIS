@@ -96,4 +96,12 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
                 : user.getRole();
         jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role);
     }
+
+    public void updateUserRole(Long userId, String newRole) {
+        String role = newRole != null && !newRole.startsWith("ROLE_")
+                ? "ROLE_" + newRole.toUpperCase()
+                : newRole;
+        String sql = "UPDATE users SET role = ? WHERE id = ?";
+        jdbcTemplate.update(sql, role, userId);
+    }
 }

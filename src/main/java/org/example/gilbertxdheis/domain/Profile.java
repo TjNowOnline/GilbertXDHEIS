@@ -2,15 +2,23 @@ package org.example.gilbertxdheis.domain;
 
 public class Profile {
     private int profileId;
+    private String username;
+    private String email;
     private String bio;
     private String profilePicture;
     private int userId;
+    private String role;
 
     public Profile(int profileId, String bio, String profilePicture, int userId) {
         this.profileId = profileId;
         this.bio = bio;
         this.profilePicture = profilePicture;
         this.userId = userId;
+        this.role = role;
+    }
+
+    public Profile() {
+
     }
 
     public int getProfileId() {
@@ -43,5 +51,29 @@ public class Profile {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void getUsername(String username) {
+        this.username = username;
+    }
+
+    public String setUsername(String username) {
+        return this.username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
