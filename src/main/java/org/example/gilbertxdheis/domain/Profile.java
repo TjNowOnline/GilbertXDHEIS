@@ -9,7 +9,7 @@ public class Profile {
     private int userId;
     private String role;
 
-    public Profile(int profileId, String bio, String profilePicture, int userId) {
+    public Profile(int profileId, String bio, String profilePicture, int userId, String role) {
         this.profileId = profileId;
         this.bio = bio;
         this.profilePicture = profilePicture;
@@ -18,7 +18,6 @@ public class Profile {
     }
 
     public Profile() {
-
     }
 
     public int getProfileId() {
@@ -61,12 +60,12 @@ public class Profile {
         this.role = role;
     }
 
-    public void getUsername(String username) {
-        this.username = username;
+    public String getUsername() {
+        return username;
     }
 
-    public String setUsername(String username) {
-        return this.username;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

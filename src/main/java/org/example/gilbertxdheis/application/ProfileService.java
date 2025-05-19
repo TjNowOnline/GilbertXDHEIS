@@ -1,6 +1,7 @@
 package org.example.gilbertxdheis.application;
 
 import org.example.gilbertxdheis.domain.Profile;
+import org.example.gilbertxdheis.domain.SellerStats;
 import org.example.gilbertxdheis.domain.User;
 import org.example.gilbertxdheis.infrastructure.JdbcUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class ProfileService {
         return false;
     }
 
-    public Profile getProfileByUserId(Long userId) {
+    public Optional<Profile> getProfileByUserId(Long userId) {
         Optional<User> user = jdbcUserRepository.findById(userId);
         if (user.isPresent()) {
             User foundUser = user.get();
@@ -32,8 +33,15 @@ public class ProfileService {
             profile.setUsername(foundUser.getUsername());
             profile.setEmail(foundUser.getEmail());
             profile.setRole(foundUser.getRole());
-            return profile;
+            profile.setBio("This seller offers premium pre-owned goods."); // Default bio, can be fetched from DB
+            profile.setProfilePicture("https://via.placeholder.com/150"); // Default placeholder image
+            return Optional.of(profile);
         }
-        return null;
+        return Optional.empty();
+    }
+
+    public SellerStats getSellerStats(Long userId) {
+        // Replace with actual database logic
+        return new SellerStats(50, 2500.00, 4.5); // Example values
     }
 }

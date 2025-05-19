@@ -15,6 +15,10 @@ public class Report {
         this.status = status;
     }
 
+    public Report() {
+
+    }
+
     public int getReportId() {
         return reportId;
     }

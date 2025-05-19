@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/feather-icons"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <title>Report a Seller - Gilbert</title>
+  <style>
+    :root {
+      --dark-green: #004224;
+      --off-white: #f8f0e5;
+      --dark-brown: #423a26;
+      --white: #f8f0e5;
+      --light-green: #0a5a36;
+      --border-color: #e0e0e0;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Playfair+Display', serif;
+    }
+
+    body {
+      background-color: var(--off-white);
+      color: var(--dark-green);
+      line-height: 1.6;
+    }
+
+    /* Mobile Container */
+    .app-container {
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--white);
+      min-height: 100vh;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    /* Mobile Navbar */
+    .app-navbar {
+      background-color: var(--dark-green);
+      color: var(--white);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .app-logo {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .app-menu, .app-user {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .icon-btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* Desktop Container */
+    .container {
+      width: 100%;
+      margin: 0 auto;
+      display: none;
+    }
+
+    /* Desktop Header */
+    header {
+      background-color: var(--dark-green);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 4%;
+      margin: 0 auto;
+      max-width: 100%;
+      width: 92%;
+    }
+
+    .logo {
+      font-size: clamp(20px, 2.5vw, 24px);
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .menu-toggle {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: clamp(10px, 1.5vw, 20px);
+    }
+
+    .nav-link {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: clamp(14px, 1.5vw, 16px);
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: var(--light-green);
+    }
+
+    .user-actions {
+      display: flex;
+      gap: clamp(10px, 1.5vw, 15px);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 80%;
+      height: 100%;
+      background-color: var(--dark-green);
+      padding: 20px;
+      z-index: 2000;
+      transition: left 0.3s;
+    }
+
+    .close-menu {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .mobile-nav-links {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .mobile-nav-link {
+      color: var(--white);
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 1999;
+      display: none;
+    }
+
+    /* Form Section */
+    .report-section {
+      padding: 20px 16px;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--dark-green);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    label {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--dark-brown);
+    }
+
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      font-size: 14px;
+      color: var(--dark-green);
+      background-color: var(--white);
+      resize: vertical;
+    }
+
+    input[type="number"]:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--light-green);
+      box-shadow: 0 0 5px rgba(10, 90, 54, 0.3);
+    }
+
+    input:invalid,
+    textarea:invalid {
+      border-color: #e74c3c;
+    }
+
+    button[type="submit"] {
+      background: var(--dark-green);
+      color: var(--white);
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--light-green);
+    }
+
+    /* Mobile Footer */
+    .app-footer {
+      background-color: var(--dark-green);
+      padding: 16px;
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      justify-content: space-around;
+      z-index: 99;
+    }
+
+    .footer-btn {
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      text-decoration: none;
+    }
+
+    .footer-icon {
+      font-size: 20px;
+    }
+
+    /* Desktop Footer */
+    footer {
+      background-color: var(--dark-brown);
+      color: var(--white);
+      padding: clamp(20px, 3vw, 40px) 4%;
+      width: 100%;
+    }
+
+    .footer-container {
+      display: grid;
+      gap: clamp(15px, 2vw, 20px);
+      max-width: 100%;
+      margin: 0 auto;
+      width: 92%;
+    }
+
+    .footer-logo {
+      font-size: clamp(20px, 2.5vw, 24px);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .footer-about {
+      font-size: clamp(12px, 1.2vw, 14px);
+      margin-bottom: 15px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: clamp(10px, 1.5vw, 15px);
+    }
+
+    .social-icon {
+      color: var(--white);
+      font-size: clamp(18px, 2vw, 20px);
+      text-decoration: none;
+    }
+
+    .social-icon:hover {
+      color: var(--light-green);
+    }
+
+    .footer-title {
+      font-size: clamp(14px, 1.5vw, 16px);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 8px;
+    }
+
+    .footer-links a {
+      color: var(--white);
+      text-decoration: none;
+      font-size: clamp(12px, 1.2vw, 14px);
+    }
+
+    .footer-links a:hover {
+      color: var(--light-green);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 20px;
+      margin-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: clamp(12px, 1.2vw, 14px);
+    }
+
+    /* Responsive Styles */
+    @media (min-width: 576px) {
+      .app-container, .container {
+        max-width: 540px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .app-container, .container {
+        max-width: 720px;
+      }
+
+      .report-section {
+        padding: 30px 20px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .app-container, .app-navbar, .app-footer {
+        display: none;
+      }
+
+      .container {
+        display: block;
+        max-width: 100%;
+      }
+
+      .report-section {
+        padding: 40px 0;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      form {
+        gap: 20px;
+      }
+
+      label {
+        font-size: 18px;
+      }
+
+      input[type="number"],
+      textarea {
+        font-size: 16px;
+      }
+
+      button[type="submit"] {
+        padding: 12px;
+        font-size: 18px;
+      }
+
+      .footer-container {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 1023px) {
+      .container, header, footer {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Mobile View (Version 2, <1024px) -->
+<div class="app-container">
+  <!-- Mobile Navigation -->
+  <div class="app-navbar">
+    <div class="app-menu">
+      <button class="icon-btn">
+        <div data-feather="menu"></div>
+      </button>
+    </div>
+    <div class="app-logo">Gilbert</div>
+    <div class="app-user">
+      <button class="icon-btn">
+        <div data-feather="user"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Report Section -->
+  <div class="report-section">
+    <h1>Report a Seller</h1>
+    <form action="/reports/seller" method="post">
+      <label for="reporterId">Your ID:</label>
+      <input type="number" id="reporterId" name="reporterId" required>
+
+      <label for="sellerId">Seller ID:</label>
+      <input type="number" id="sellerId" name="sellerId" required>
+
+      <label for="reason">Reason:</label>
+      <textarea id="reason" name="reason" rows="4" required></textarea>
+
+      <button type="submit">Submit Report</button>
+    </form>
+  </div>
+
+  <!-- App Footer -->
+  <div class="app-footer">
+    <a href="#" class="footer-btn">
+      <div class="footer-icon" data-feather="home"></div>
+      <div>Home</div>
+    </a>
+    <a href="#" class="footer-btn">
+      <div class="footer-icon" data-feather="search"></div>
+      <div>Search</div>
+    </a>
+    <a href="#" class="footer-btn">
+      <div class="footer-icon" data-feather="heart"></div>
+      <div>Favorites</div>
+    </a>
+    <a href="#" class="footer-btn">
+      <div class="footer-icon" data-feather="bell"></div>
+      <div>Notifications</div>
+    </a>
+    <a href="#" class="footer-btn">
+      <div class="footer-icon" data-feather="user"></div>
+      <div>Profile</div>
+    </a>
+  </div>
+</div>
+
+<!-- Desktop View (Version 1, ≥1024px) -->
+<div class="container">
+  <!-- Header -->
+  <header>
+    <nav>
+      <button class="menu-toggle">☰</button>
+      <a href="#" class="logo">Gilbert</a>
+      <div class="nav-menu">
+        <a href="#" class="nav-link">Home</a>
+        <a href="#" class="nav-link">Women</a>
+        <a href="#" class="nav-link">Men</a>
+        <a href="#" class="nav-link">Brands</a>
+      </div>
+      <div class="user-actions">
+        <a href="#" class="footer-btn">
+          <div class="footer-icon" data-feather="search"></div>
+          <div>Search</div>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu">
+    <div class="close-menu">
+      <button class="close-btn">×</button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="#" class="mobile-nav-link">Home</a>
+      <a href="#" class="mobile-nav-link">Women</a>
+      <a href="#" class="mobile-nav-link">Men</a>
+      <a href="#" class="mobile-nav-link">Brands</a>
+      <a href="#" class="mobile-nav-link">My Account</a>
+    </div>
+  </div>
+  <div class="overlay"></div>
+
+  <!-- Report Section -->
+  <section class="report-section">
+    <h1>Report a Seller</h1>
+    <form action="/reports/seller" method="post">
+      <label for="reporterId">Your ID:</label>
+      <input type="number" id="reporterId" name="reporterId" required>
+
+      <label for="sellerId">Seller ID:</label>
+      <input type="number" id="sellerId" name="sellerId" required>
+
+      <label for="reason">Reason:</label>
+      <textarea id="reason" name="reason" rows="4" required></textarea>
+
+      <button type="submit">Submit Report</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div>
+        <div class="footer-logo">Gilbert</div>
+        <p class="footer-about">Sustainable luxury marketplace for authenticated pre-owned goods.</p>
+        <div class="footer-social">
+          <i class="fas fa-home"></i>
+          <i class="fab fa-facebook"></i>
+          <i class="far fa-heart"></i>
+        </div>
+      </div>
+      <div>
+        <div class="footer-title">Shop</div>
+        <ul class="footer-links">
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Men</a></li>
+          <li><a href="#">Brands</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Support</div>
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Returns</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-title">Company</div>
+        <ul class="footer-links">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Sustainability</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">© 2025 Gilbert. All rights reserved. Last updated: 03:29 PM CEST, May 18, 2025.</div>
+  </footer>
+</div>
+
+<script>
+  feather.replace();
+</script>
+</body>
+</html>
