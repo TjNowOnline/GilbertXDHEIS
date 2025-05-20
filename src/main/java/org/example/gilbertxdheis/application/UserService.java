@@ -13,6 +13,8 @@ public class UserService {
     }
 
     public void createUser(User user) {
-        userRepository.save(user);
+        System.out.println("createUser method called");
+        userRepository.create(user);
+        System.out.println(user);
     }
 }

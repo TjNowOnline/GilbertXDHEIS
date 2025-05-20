@@ -34,6 +34,7 @@ public class SecurityConfig {
         http
                 .authenticationProvider(authProvider)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/users/create").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/moderator/**").hasRole("MODERATOR")
                         .requestMatchers("/member/**").hasRole("MEMBER")

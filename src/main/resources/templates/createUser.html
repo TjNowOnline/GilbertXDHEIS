@@ -412,7 +412,11 @@
     <!-- Form Section -->
     <div class="form-section" style="padding: 20px 16px;">
         <div class="section-title">Create Profile</div>
-        <form action="/users/create" method="post">
+        <form th:action="@{/users/create}" method="post">
+            <div>
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="usernameMobile" name="username" class="form-input" required aria-required="true">
+            </div>
             <div class="form-group">
                 <label for="firstNameMobile" class="form-label">First Name</label>
                 <input type="text" id="firstNameMobile" name="firstName" class="form-input" required aria-required="true">
@@ -512,7 +516,11 @@
     <!-- Form Section -->
     <section class="form-section" style="padding: 40px 0;">
         <div class="section-title">Create Profile</div>
-        <form action="/users/create" method="post">
+        <form th:action="@{/users/create}" method="post">
+            <div>
+                <label for="username" class="form-label">Username</label>
+                <input type="text" id="username" name="username" class="form-input" required aria-required="true">
+            </div>
             <div class="form-group">
                 <label for="firstName" class="form-label">First Name</label>
                 <input type="text" id="firstName" name="firstName" class="form-input" required aria-required="true">
@@ -533,19 +541,17 @@
                 <label for="address" class="form-label">Address</label>
                 <input type="text" id="address" name="address" class="form-input" required aria-required="true">
             </div>
-
             <div class="form-group">
                 <label for="postalCode" class="form-label">Postal Code</label>
-                <input type="text" id="postalCode" name="postalCode" class="form-input" required aria-required="true">
+                <input type="text" id="postalCode" name="postalCode" class="form-input" required aria-required="true" pattern="\d{4,6}" title="Enter a valid postal code">
             </div>
-
             <div class="form-group">
                 <label for="businessId" class="form-label">
                     Business ID <span style="font-weight: normal; font-size: 14px;">(only if you're a business)</span>
                 </label>
-                <input type="text" id="businessId" name="business-id" class="form-input">
+                <input type="text" id="businessId" name="businessId" class="form-input">
             </div>
-
+            <input type="hidden" name="role" value="USER">
             <div class="button-group">
                 <button type="submit" class="primary-btn">Create Profile</button>
             </div>

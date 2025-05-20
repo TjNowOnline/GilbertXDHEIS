@@ -21,11 +21,43 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
 
     @Override
     public void create(User user) {
-        String sql = "INSERT INTO users (username, email, password, is_verified, role) VALUES (?, ?, ?, ?, ?)";
-        String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
-                ? "ROLE_" + user.getRole().toUpperCase()
-                : user.getRole();
-        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), user.isVerified(), role);
+        String sql = "INSERT INTO users (username, first_name, last_name, email, password, address, postal_code, business_id, role, is_verified, is_admin) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Default values for role, isVerified, and isAdmin
+        String role = "ROLE_USER";
+        boolean isVerified = false;
+        boolean isAdmin = false;
+
+        try {
+            // Debugging: Log the user details
+            System.out.println("Creating user: " + user);
+
+            // Execute the SQL query
+            int rowsAffected = jdbcTemplate.update(sql,
+                    user.getUsername(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    user.getPassword(),
+                    user.getAddress(),
+                    user.getPostalCode(),
+                    user.getBusinessId(),
+                    role,
+                    isVerified,
+                    isAdmin
+            );
+
+            // Debugging: Log the result
+            if (rowsAffected > 0) {
+                System.out.println("User created successfully.");
+            } else {
+                System.err.println("No rows were affected. User creation failed.");
+            }
+        } catch (Exception e) {
+            // Log and rethrow the exception
+            System.err.println("Error executing SQL: " + e.getMessage());
+            throw new RuntimeException("Error executing SQL: " + e.getMessage(), e);
+        }
     }
 
     @Override
@@ -68,12 +100,18 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
     private RowMapper<User> userRowMapper() {
         return (rs, rowNum) -> {
             User user = new User();
-            user.setUserId((int) rs.getLong("user_id"));
+            user.setUserId(rs.getInt("user_id"));
             user.setUsername(rs.getString("username"));
             user.setEmail(rs.getString("email"));
+            user.setFirstName(rs.getString("first_name"));
+            user.setLastName(rs.getString("last_name"));
             user.setPassword(rs.getString("password"));
-            user.setVerified(rs.getBoolean("is_verified"));
+            user.setAddress(rs.getString("address"));
+            user.setPostalCode(rs.getString("postal_code"));
+            user.setBusinessId(rs.getString("business_id"));
             user.setRole(rs.getString("role"));
+            user.setVerified(rs.getBoolean("is_verified"));
+            user.setAdmin(rs.getBoolean("is_admin"));
             return user;
         };
     }

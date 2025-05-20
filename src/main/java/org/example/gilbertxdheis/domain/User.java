@@ -4,21 +4,34 @@ public class User {
     private int userId;
     private String username;
     private String email;
+    private String firstName;
+    private String lastName;
     private String password;
-    private String role;
+    private String address;
+    private String postalCode;
+    private String businessId;
+    private String role = "USER";
     private boolean isVerified;
     private boolean isAdmin;
 
-    public User(int userId, String username, String email, String password, boolean isVerified, boolean isAdmin) {
+    public User(int userId, String username, String email, String firstName, String lastName, String password, String adress, String postalCode, String businessId, String role, boolean isVerified, boolean isAdmin) {
         this.userId = userId;
         this.username = username;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
+        this.address = adress;
+        this.postalCode = postalCode;
+        this.businessId = businessId;
+        this.role = role;
         this.isVerified = isVerified;
         this.isAdmin = isAdmin;
     }
 
-    public User() {}
+    public User() {
+
+    }
 
     public int getUserId() {
         return userId;
@@ -44,12 +57,60 @@ public class User {
         this.email = email;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String adress) {
+        this.address = adress;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getBusinessId() {
+        return businessId;
+    }
+
+    public void setBusinessId(String businessId) {
+        this.businessId = businessId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public boolean isVerified() {
@@ -66,14 +127,6 @@ public class User {
 
     public void setAdmin(boolean admin) {
         isAdmin = admin;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
     @Override
