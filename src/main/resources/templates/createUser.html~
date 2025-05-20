@@ -21,7 +21,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Playfair+Display', serif;
+            font-family: 'Playfair Display', serif;
         }
 
         body {
@@ -75,6 +75,7 @@
         /* Desktop Container */
         .container {
             width: 100%;
+            padding: 0 15px;
             margin: 0 auto;
             display: none;
         }
@@ -86,21 +87,17 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: 100%;
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 4%;
-            margin: 0 auto;
-            max-width: 100%;
-            width: 92%;
+            padding: 15px 0;
         }
 
         .logo {
-            font-size: clamp(20px, 2.5vw, 24px);
+            font-size: 24px;
             font-weight: 700;
             color: var(--white);
             text-decoration: none;
@@ -117,14 +114,14 @@
         .nav-menu {
             display: flex;
             align-items: center;
-            gap: clamp(10px, 1.5vw, 20px);
+            gap: 20px;
         }
 
         .nav-link {
             color: var(--white);
             text-decoration: none;
             font-weight: 500;
-            font-size: clamp(14px, 1.5vw, 16px);
+            font-size: 16px;
             transition: color 0.3s;
         }
 
@@ -134,7 +131,7 @@
 
         .user-actions {
             display: flex;
-            gap: clamp(10px, 1.5vw, 15px);
+            gap: 15px;
         }
 
         /* Mobile Menu */
@@ -270,37 +267,33 @@
         footer {
             background-color: var(--dark-brown);
             color: var(--white);
-            padding: clamp(20px, 3vw, 40px) 4%;
-            width: 100%;
+            padding: 40px 0;
         }
 
         .footer-container {
             display: grid;
-            gap: clamp(15px, 2vw, 20px);
-            max-width: 100%;
-            margin: 0 auto;
-            width: 92%;
+            gap: 20px;
         }
 
         .footer-logo {
-            font-size: clamp(20px, 2.5vw, 24px);
+            font-size: 24px;
             font-weight: 700;
             margin-bottom: 10px;
         }
 
         .footer-about {
-            font-size: clamp(12px, 1.2vw, 14px);
+            font-size: 14px;
             margin-bottom: 15px;
         }
 
         .footer-social {
             display: flex;
-            gap: clamp(10px, 1.5vw, 15px);
+            gap: 15px;
         }
 
         .social-icon {
             color: var(--white);
-            font-size: clamp(18px, 2vw, 20px);
+            font-size: 20px;
             text-decoration: none;
         }
 
@@ -309,7 +302,7 @@
         }
 
         .footer-title {
-            font-size: clamp(14px, 1.5vw, 16px);
+            font-size: 16px;
             font-weight: 600;
             margin-bottom: 10px;
         }
@@ -325,7 +318,7 @@
         .footer-links a {
             color: var(--white);
             text-decoration: none;
-            font-size: clamp(12px, 1.2vw, 14px);
+            font-size: 14px;
         }
 
         .footer-links a:hover {
@@ -337,7 +330,7 @@
             padding-top: 20px;
             margin-top: 20px;
             border-top: 1px solid rgba(255,255,255,0.1);
-            font-size: clamp(12px, 1.2vw, 14px);
+            font-size: 14px;
         }
 
         /* Responsive Styles */
@@ -364,7 +357,7 @@
 
             .container {
                 display: block;
-                max-width: 100%;
+                max-width: 960px;
             }
 
             .form-section {
@@ -380,7 +373,7 @@
 
         @media (min-width: 1200px) {
             .container {
-                max-width: 100%;
+                max-width: 1140px;
             }
         }
 
@@ -391,7 +384,52 @@
         }
     </style>
 </head>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector(".form-container form");
+        const userList = document.getElementById("user-list");
 
+        form.addEventListener("submit", function(event) {
+            event.preventDefault(); // Stop form from refreshing page
+
+            // Get form values
+            const name = form.querySelector('input[placeholder="Name"]').value.trim();
+            const email = form.querySelector('input[placeholder="Email"]').value.trim();
+            const password = form.querySelector('input[placeholder="Password"]').value.trim();
+            const profileImage = form.querySelector('input[type="file"]').files[0];
+
+            if (!name || !email || !password) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            // Create user list item
+            const li = document.createElement("li");
+            li.textContent = `${name} (${email})`;
+
+            // If profile image is selected, show a preview
+            if (profileImage) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.alt = name + "'s profile image";
+                    img.style.width = "40px";
+                    img.style.height = "40px";
+                    img.style.borderRadius = "50%";
+                    img.style.marginLeft = "10px";
+                    li.appendChild(img);
+                };
+                reader.readAsDataURL(profileImage);
+            }
+
+            userList.appendChild(li);
+
+            // Clear form fields
+            form.reset();
+        });
+    });
+</script>
 <body>
 <!-- Mobile View (Version 2, <1024px) -->
 <div class="app-container">
@@ -413,11 +451,7 @@
     <!-- Form Section -->
     <div class="form-section" style="padding: 20px 16px;">
         <div class="section-title">Create Profile</div>
-        <form th:action="@{/users/create}" method="post">
-            <div>
-                <label for="username" class="form-label">Username</label>
-                <input type="text" id="usernameMobile" name="username" class="form-input" required aria-required="true">
-            </div>
+        <form action="/users/create" method="post">
             <div class="form-group">
                 <label for="firstNameMobile" class="form-label">First Name</label>
                 <input type="text" id="firstNameMobile" name="firstName" class="form-input" required aria-required="true">
@@ -517,11 +551,7 @@
     <!-- Form Section -->
     <section class="form-section" style="padding: 40px 0;">
         <div class="section-title">Create Profile</div>
-        <form th:action="@{/users/create}" method="post">
-            <div>
-                <label for="username" class="form-label">Username</label>
-                <input type="text" id="username" name="username" class="form-input" required aria-required="true">
-            </div>
+        <form action="/users/create" method="post">
             <div class="form-group">
                 <label for="firstName" class="form-label">First Name</label>
                 <input type="text" id="firstName" name="firstName" class="form-input" required aria-required="true">
@@ -542,17 +572,19 @@
                 <label for="address" class="form-label">Address</label>
                 <input type="text" id="address" name="address" class="form-input" required aria-required="true">
             </div>
+
             <div class="form-group">
                 <label for="postalCode" class="form-label">Postal Code</label>
-                <input type="text" id="postalCode" name="postalCode" class="form-input" required aria-required="true" pattern="\d{4,6}" title="Enter a valid postal code">
+                <input type="text" id="postalCode" name="postalCode" class="form-input" required aria-required="true">
             </div>
+
             <div class="form-group">
                 <label for="businessId" class="form-label">
                     Business ID <span style="font-weight: normal; font-size: 14px;">(only if you're a business)</span>
                 </label>
-                <input type="text" id="businessId" name="businessId" class="form-input">
+                <input type="text" id="businessId" name="business-id" class="form-input">
             </div>
-            <input type="hidden" name="role" value="USER">
+
             <div class="button-group">
                 <button type="submit" class="primary-btn">Create Profile</button>
             </div>
@@ -566,9 +598,9 @@
                 <div class="footer-logo">Gilbert</div>
                 <p class="footer-about">Sustainable luxury marketplace for authenticated pre-owned goods.</p>
                 <div class="footer-social">
-                    <i class="fas fa-home"></i>
-                    <i class="fab fa-facebook"></i>
-                    <i class="far fa-heart"></i>
+                    <i class="fas fa-home"></i> <!-- Solid style home icon -->
+                    <i class="fab fa-facebook"></i> <!-- Brand style Facebook icon -->
+                    <i class="far fa-heart"></i> <!-- Regular style heart icon -->
                 </div>
             </div>
             <div>

@@ -1,0 +1,99 @@
+package org.example.gilbertxdheis.infrastructure;
+
+import org.example.gilbertxdheis.domain.User;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public class JdbcUserRepository implements CRUDRepository<User, Long> {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public void create(User user) {
+        String sql = "INSERT INTO users (name, email, password, role, last_login) VALUES (?, ?, ?, ?, NOW())";
+        String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
+                ? "ROLE_" + user.getRole().toUpperCase()
+                : user.getRole();
+        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role);
+    }
+
+    @Override
+    public User read(Long id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, userRowMapper(), id);
+    }
+
+    @Override
+    public void update(User user) {
+        String sql = "UPDATE users SET name = ?, password = ?, role = ? WHERE email = ?";
+        String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
+                ? "ROLE_" + user.getRole().toUpperCase()
+                : user.getRole();
+        jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), role, user.getEmail());
+    }
+
+    @Override
+    public void delete(Long id) {
+        String sql = "DELETE FROM users WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    @Override
+    public Iterable<User> findAll() {
+        String sql = "SELECT * FROM users";
+        return jdbcTemplate.query(sql, userRowMapper());
+    }
+
+    public Optional<User> findById(Long id) {
+        String sql = "SELECT * FROM users WHERE id = ?";
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, userRowMapper(), id));
+        } catch (Exception e) {
+            System.err.println("Error loading user with ID: " + id + ". Exception: " + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    private RowMapper<User> userRowMapper() {
+        return (rs, rowNum) -> {
+            User user = new User();
+            user.setUserId((int) rs.getLong("id"));
+            user.setUsername(rs.getString("name"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setRole(rs.getString("role"));
+            return user;
+        };
+    }
+
+    public void updateLastLogin(String email) {
+        String sql = "UPDATE users SET last_login = NOW() WHERE email = ?";
+        jdbcTemplate.update(sql, email);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, userRowMapper(), email));
+        } catch (Exception e) {
+            System.err.println("Error loading user with email: " + email + ". Exception: " + e.getMessage());
+            return Optional.empty();
+        }
+    }
+
+    public void save(User user) {
+        String sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
+        String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
+                ? "ROLE_" + user.getRole().toUpperCase()
+                : user.getRole();
+        jdbcTemplate.update(sql, user.getUsername(), user.getEmail(), user.getPassword(), role);
+    }
+}
