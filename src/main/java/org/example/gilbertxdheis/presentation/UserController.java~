@@ -39,8 +39,5 @@ public class UserController {
             return "createUser"; // Return to the form in case of error
         }
     }
-    @GetMapping("/")
-    public String index() {
-        return "index"; // returns src/main/resources/templates/index.html
-    }
+    
 }

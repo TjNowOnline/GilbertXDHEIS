@@ -70,7 +70,7 @@ public class SecurityConfig {
                             grantedAuthority.getAuthority().equals("ROLE_MODERATOR"))) {
                 response.sendRedirect("/moderator");
             } else {
-                response.sendRedirect("/");
+                response.sendRedirect("/index");
             }
         };
     }

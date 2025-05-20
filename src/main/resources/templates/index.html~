@@ -587,7 +587,7 @@
     }
 
     footer {
-      background-color: var(--dark-green);
+      background-color: var(--dark-brown);
       color: var(--white);
       padding: 40px 0;
       display: none;
