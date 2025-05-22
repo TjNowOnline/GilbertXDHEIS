@@ -66,8 +66,8 @@ public class UserService {
         existingUser.setPostalCode(updatedUser.getPostalCode());
         existingUser.setBusinessId(updatedUser.getBusinessId());
 
-        // Update password only if provided
-        if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
+        // Update password only if provided and not empty
+        if (updatedUser.getPassword() != null && !updatedUser.getPassword().trim().isEmpty()) {
             existingUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         }
 

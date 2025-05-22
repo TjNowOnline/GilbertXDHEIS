@@ -1,5 +1,6 @@
 package org.example.gilbertxdheis.application;
 
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.example.gilbertxdheis.domain.Item;
 import org.example.gilbertxdheis.infrastructure.JdbcItemRepository;
 import org.springframework.stereotype.Service;

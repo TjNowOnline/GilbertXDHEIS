@@ -24,12 +24,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/create")
-    public String showCreateUserPage() {
-        return "createUser"; // Ensure this matches the Thymeleaf template name
-    }
-
-    @PostMapping("/users/create")
+    @PostMapping("/register")
     public String createUser(
             @Valid @ModelAttribute("user") User user,
             BindingResult bindingResult,
