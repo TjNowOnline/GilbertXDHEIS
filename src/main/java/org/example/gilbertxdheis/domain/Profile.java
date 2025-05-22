@@ -13,7 +13,7 @@ public class Profile {
     private String role;
     private int itemsSold;
     private int followers;
-    private List<Object> soldItems = new ArrayList<>();
+    private List<Item> soldItems = new ArrayList<>();
     private String businessId;
 
 
@@ -108,11 +108,11 @@ public class Profile {
         this.followers = followers;
     }
 
-    public List<Object> getSoldItems() {
+    public List<Item> getSoldItems() {
         return soldItems;
     }
 
-    public void setSoldItems(List<Object> soldItems) {
+    public void setSoldItems(List<Item> soldItems) {
         this.soldItems = soldItems;
     }
 

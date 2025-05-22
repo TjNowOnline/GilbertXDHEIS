@@ -12,6 +12,10 @@ public class LoginController {
         return "login"; // Serves the login.html page
     }
 
+    @GetMapping("/register")
+    public String showRegisterPage() {
+        return "createUser"; // Serves the register.html page
+    }
 
     @GetMapping("/profile")
     public String handleProfileRedirect(HttpSession session) {

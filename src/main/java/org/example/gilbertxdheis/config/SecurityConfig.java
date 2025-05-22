@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -30,21 +32,34 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/register", "/css/**").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/sell", "/css/**", "/js/**", "/uploads/**").permitAll()
+                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/moderator/**").hasRole("MODERATOR")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .successHandler(customAuthenticationSuccessHandler()) // Call the method to get the bean
-                        .failureHandler(customAuthenticationFailureHandler()) // Call the method to get the bean
+                        .successHandler(customAuthenticationSuccessHandler())
+                        .failureHandler(customAuthenticationFailureHandler())
                         .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
+                )
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(csrfTokenRepository())
+                        // Temporarily disable CSRF for debugging
+                        .ignoringRequestMatchers("/api/**")
                 );
         return http.build();
+    }
+
+    @Bean
+    public CsrfTokenRepository csrfTokenRepository() {
+        return new HttpSessionCsrfTokenRepository();
     }
 
     @Bean
@@ -61,6 +76,8 @@ public class SecurityConfig {
             if (userId != null) {
                 request.getSession().setAttribute("userId", userId);
                 System.out.println("User logged in with userId: " + userId);
+            } else {
+                System.out.println("Failed to retrieve userId for email: " + email);
             }
 
             // Redirect based on roles
@@ -73,7 +90,7 @@ public class SecurityConfig {
                             grantedAuthority.getAuthority().equals("ROLE_MODERATOR"))) {
                 response.sendRedirect("/moderator");
             } else {
-                response.sendRedirect("/my-profile"); // Redirect to /my-profile for regular users
+                response.sendRedirect("/my-profile");
             }
         };
     }

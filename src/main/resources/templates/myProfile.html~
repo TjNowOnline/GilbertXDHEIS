@@ -630,9 +630,9 @@
       <a href="#" class="mobile-nav-link">Women</a>
       <a href="#" class="mobile-nav-link">Men</a>
       <a href="#" class="mobile-nav-link">Brands</a>
-      <a href="/sell" class="mobile-nav-link">Sell</a>
-      <a href="/create-profile" class="mobile-nav-link">Create Profile</a>
-      <a href="/my-profile" class="mobile-nav-link">My Profile</a>
+      <a href="#" class="mobile-nav-link">Sell</a>
+      <a href="createProfile.html" class="mobile-nav-link">Create Profile</a>
+      <a href="myProfile.html" class="mobile-nav-link">My Profile</a>
     </div>
   </div>
   <div class="overlay"></div>
@@ -645,13 +645,13 @@
       </div>
       <div class="seller-details">
         <div class="seller-username" th:text="${profile.username}">MyUsername</div>
-        <div class="expert-seller" th:if="${profile.itemsSold > 25}">EXPERT SELLER</div>
+        <div class="expert-seller" th:text="${profile.itemsSold > 25 ? 'EXPERT SELLER' : ''}"></div>
         <div class="seller-stats">
           <span th:text="${profile.itemsSold} + ' Items Sold'">0 Items Sold</span>
           <span th:text="${profile.followers} ?: 0 + ' Followers'">0 Followers</span>
         </div>
       </div>
-      <a href="/create-profile" class="edit-profile-btn">Edit Profile</a>
+      <a href="create-profile.html" class="edit-profile-btn">Edit Profile</a>
     </div>
     <div class="tabs">
       <input type="radio" name="tabs" id="items-for-sale-tab-mobile" class="tab" checked>
@@ -674,9 +674,9 @@
         <div class="items-grid">
           <div th:if="${itemsForSale != null and !itemsForSale.isEmpty()}">
             <div class="item-card" th:each="item : ${itemsForSale}">
-              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}">
+              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
               <div class="item-info">
-                <h3 th:text="${item.title}">Item Title</h3>
+                <h3 th:text="${item.name}">Item Name</h3>
                 <p th:text="'$' + ${item.price}">0.00</p>
               </div>
             </div>
@@ -690,10 +690,10 @@
           <div th:if="${profile.soldItems != null and !profile.soldItems.isEmpty()}">
             <div class="items-grid">
               <div class="item-card" th:each="item : ${profile.soldItems}">
-                <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}">
+                <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
                 <div class="item-info">
-                  <h3 th:text="${item.title}">Item Title</h3>
-                  <p th:text="'Sold for $' + ${item.price}">0.00</p>
+                  <h3 th:text="${item.name}">Item Name</h3>
+                  <p th:text="'Sold for $' + ${item.soldPrice}">0.00</p>
                 </div>
               </div>
             </div>
@@ -728,7 +728,7 @@
 
   <!-- App Footer -->
   <div class="app-footer">
-    <a href="/" class="footer-btn">
+    <a href="index.html" class="footer-btn">
       <div class="footer-icon" data-feather="home"></div>
       <div>Home</div>
     </a>
@@ -744,7 +744,7 @@
       <div class="footer-icon" data-feather="bell"></div>
       <div>Notifications</div>
     </a>
-    <a href="/my-profile" class="footer-btn">
+    <a href="myProfile.html" class="footer-btn">
       <div class="footer-icon" data-feather="user"></div>
       <div>My Profile</div>
     </a>
@@ -763,9 +763,9 @@
         <a href="#" class="nav-link">Women</a>
         <a href="#" class="nav-link">Men</a>
         <a href="#" class="nav-link">Brands</a>
-        <a href="/sell" class="nav-link">Sell</a>
-        <a href="/create-profile" class="nav-link">Create Profile</a>
-        <a href="/my-profile" class="nav-link">My Profile</a>
+        <a href="#" class="nav-link">Sell</a>
+        <a href="createProfile.html" class="nav-link">Create Profile</a>
+        <a href="myProfile.html" class="nav-link">My Profile</a>
       </div>
       <div class="user-actions">
         <div class="search-bar">
@@ -776,7 +776,7 @@
           <div class="footer-icon" data-feather="heart"></div>
           <div>Favorites</div>
         </a>
-        <a href="/my-profile" class="footer-btn">
+        <a href="myProfile.html" class="footer-btn">
           <div class="footer-icon" data-feather="user"></div>
           <div>My Profile</div>
         </a>
@@ -790,13 +790,13 @@
       <button class="close-btn">×</button>
     </div>
     <div class="mobile-nav-links">
-      <a href="/" class="mobile-nav-link">Home</a>
+      <a href="index.html" class="mobile-nav-link">Home</a>
       <a href="#" class="mobile-nav-link">Women</a>
       <a href="#" class="mobile-nav-link">Men</a>
       <a href="#" class="mobile-nav-link">Brands</a>
-      <a href="/sell" class="mobile-nav-link">Sell</a>
-      <a href="/create-profile" class="mobile-nav-link">Create Profile</a>
-      <a href="/my-profile" class="mobile-nav-link">My Profile</a>
+      <a href="#" class="mobile-nav-link">Sell</a>
+      <a href="create-profile.html" class="mobile-nav-link">Create Profile</a>
+      <a href="myProfile.html" class="mobile-nav-link">My Profile</a>
     </div>
   </div>
   <div class="overlay"></div>
@@ -809,23 +809,23 @@
       </div>
       <div class="seller-details">
         <div class="seller-username" th:text="${profile.username}">MyUsername</div>
-        <div class="expert-seller" th:if="${profile.itemsSold > 25}">EXPERT SELLER</div>
+        <div class="expert-seller" th:text="${profile.itemsSold > 25 ? 'EXPERT SELLER' : ''}"></div>
         <div class="seller-stats">
           <span th:text="${profile.itemsSold} + ' Items Sold'">0 Items Sold</span>
           <span th:text="${profile.followers} ?: 0 + ' Followers'">0 Followers</span>
         </div>
       </div>
-      <a href="/create-profile" class="edit-profile-btn">Edit Profile</a>
+      <a href="createProfile.html" class="edit-profile-btn">Edit Profile</a>
     </div>
     <div class="tabs">
-      <input type="radio" name="tabs-desktop" id="items-for-sale-tab" class="tab" checked>
-      <label for="items-for-sale-tab">Items for Sale</label>
-      <input type="radio" name="tabs-desktop" id="sold-items-tab" class="tab">
-      <label for="sold-items-tab">Sold Items</label>
-      <input type="radio" name="tabs-desktop" id="about-tab" class="tab">
-      <label for="about-tab">About</label>
-      <input type="radio" name="tabs-desktop" id="feedback-tab" class="tab">
-      <label for="feedback-tab">Feedback</label>
+      <input type="radio" name="tabs-desktop" id="items-for-sale-tab-desktop" class="tab" checked>
+      <label for="items-for-sale-tab-desktop">Items for Sale</label>
+      <input type="radio" name="tabs-desktop" id="sold-items-tab-desktop" class="tab">
+      <label for="sold-items-tab-desktop">Sold Items</label>
+      <input type="radio" name="tabs-desktop" id="about-tab-desktop" class="tab">
+      <label for="about-tab-desktop">About</label>
+      <input type="radio" name="tabs-desktop" id="feedback-tab-desktop" class="tab">
+      <label for="feedback-tab-desktop">Feedback</label>
       <div class="tab-content" id="items-for-sale">
         <div class="sort-bar">
           <span class="sort-label">Sort by:</span>
@@ -838,9 +838,9 @@
         <div class="items-grid">
           <div th:if="${itemsForSale != null and !itemsForSale.isEmpty()}">
             <div class="item-card" th:each="item : ${itemsForSale}">
-              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}">
+              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
               <div class="item-info">
-                <h3 th:text="${item.title}">Item Title</h3>
+                <h3 th:text="${item.name}">Item Name</h3>
                 <p th:text="'$' + ${item.price}">0.00</p>
               </div>
             </div>
@@ -854,10 +854,10 @@
           <div th:if="${profile.soldItems != null and !profile.soldItems.isEmpty()}">
             <div class="items-grid">
               <div class="item-card" th:each="item : ${profile.soldItems}">
-                <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}">
+                <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
                 <div class="item-info">
-                  <h3 th:text="${item.title}">Item Title</h3>
-                  <p th:text="'Sold for $' + ${item.price}">0.00</p>
+                  <h3 th:text="${item.name}">Item Name</h3>
+                  <p th:text="'Sold for $' + ${item.soldPrice}">0.00</p>
                 </div>
               </div>
             </div>
@@ -914,7 +914,7 @@
       <div>
         <div class="footer-title">Sell</div>
         <ul class="footer-links">
-          <li><a href="/sell">How to Sell</a></li>
+          <li><a href="#">How to Sell</a></li>
           <li><a href="#">Seller Guide</a></li>
           <li><a href="#">Authentication Process</a></li>
         </ul>
@@ -935,27 +935,6 @@
 
 <script>
   feather.replace();
-
-  // Mobile menu toggle
-  const menuToggle = document.querySelector('.menu-toggle');
-  const mobileMenu = document.querySelector('.mobile-menu');
-  const closeBtn = document.querySelector('.close-btn');
-  const overlay = document.querySelector('.overlay');
-
-  menuToggle.addEventListener('click', () => {
-    mobileMenu.style.left = '0';
-    overlay.style.display = 'block';
-  });
-
-  closeBtn.addEventListener('click', () => {
-    mobileMenu.style.left = '-100%';
-    overlay.style.display = 'none';
-  });
-
-  overlay.addEventListener('click', () => {
-    mobileMenu.style.left = '-100%';
-    overlay.style.display = 'none';
-  });
 </script>
 </body>
 </html>

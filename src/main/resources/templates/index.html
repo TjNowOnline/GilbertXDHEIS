@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <script src="https://unpkg.com/feather-icons"></script>
@@ -467,12 +467,12 @@
       <button class="close-btn">×</button>
     </div>
     <div class="mobile-nav-links">
-      <a href="#" class="mobile-nav-link">Home</a>
+      <a href="/" class="mobile-nav-link">Home</a>
       <a href="#" class="mobile-nav-link">Women</a>
       <a href="#" class="mobile-nav-link">Men</a>
       <a href="#" class="mobile-nav-link">Brands</a>
-      <a href="#" class="mobile-nav-link">Sell</a>
-      <a href="#" class="mobile-nav-link">My Account</a>
+      <a href="/sell" class="mobile-nav-link">Sell</a>
+      <a href="/profile" class="mobile-nav-link">My Account</a>
     </div>
   </div>
   <div class="overlay"></div>
@@ -487,37 +487,13 @@
       <button class="filter-btn">Clothing</button>
       <button class="filter-btn">Shoes</button>
     </div>
-    <div class="product-grid">
+    <div class="product-grid" th:each="item : ${items}">
       <div class="product-card">
-        <img src="https://via.placeholder.com/150" alt="Chanel Bag" class="product-image">
+        <img th:src="${item.imageUrl}" th:alt="${item.title}" class="product-image">
         <div class="product-info">
-          <div class="product-brand">Chanel</div>
-          <div class="product-name">Classic Flap Bag</div>
-          <div class="product-price">$4,500</div>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/150" alt="Gucci Jacket" class="product-image">
-        <div class="product-info">
-          <div class="product-brand">Gucci</div>
-          <div class="product-name">Tailored Jacket</div>
-          <div class="product-price">$1,200</div>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/150" alt="Louboutin Heels" class="product-image">
-        <div class="product-info">
-          <div class="product-brand">Louboutin</div>
-          <div class="product-name">Red Sole Heels</div>
-          <div class="product-price">$800</div>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/150" alt="Rolex Watch" class="product-image">
-        <div class="product-info">
-          <div class="product-brand">Rolex</div>
-          <div class="product-name">Datejust Watch</div>
-          <div class="product-price">$6,000</div>
+          <div class="product-brand" th:text="${item.category}">Category</div>
+          <div class="product-name" th:text="${item.title}">Item Name</div>
+          <div class="product-price" th:text="'$' + ${item.price}">Price</div>
         </div>
       </div>
     </div>
@@ -525,7 +501,7 @@
 
   <!-- App Footer -->
   <div class="app-footer">
-    <a href="#" class="footer-btn">
+    <a href="/" class="footer-btn">
       <div class="footer-icon" data-feather="home"></div>
       <div>Home</div>
     </a>
@@ -541,7 +517,7 @@
       <div class="footer-icon" data-feather="bell"></div>
       <div>Notifications</div>
     </a>
-    <a href="#" class="footer-btn">
+    <a href="/profile" class="footer-btn">
       <div class="footer-icon" data-feather="user"></div>
       <div>Profile</div>
     </a>
@@ -554,13 +530,13 @@
   <header>
     <nav>
       <button class="menu-toggle">☰</button>
-      <a href="#" class="logo">Gilbert</a>
+      <a href="/" class="logo">Gilbert</a>
       <div class="nav-menu">
-        <a href="#" class="nav-link">Home</a>
+        <a href="/" class="nav-link">Home</a>
         <a href="#" class="nav-link">Women</a>
         <a href="#" class="nav-link">Men</a>
         <a href="#" class="nav-link">Brands</a>
-        <a href="#" class="nav-link">Sell</a>
+        <a href="/sell" class="nav-link">Sell</a>
       </div>
       <div class="user-actions">
         <div class="search-bar">
@@ -585,12 +561,12 @@
       <button class="close-btn">×</button>
     </div>
     <div class="mobile-nav-links">
-      <a href="#" class="mobile-nav-link">Home</a>
+      <a href="/" class="mobile-nav-link">Home</a>
       <a href="#" class="mobile-nav-link">Women</a>
       <a href="#" class="mobile-nav-link">Men</a>
       <a href="#" class="mobile-nav-link">Brands</a>
-      <a href="#" class="mobile-nav-link">Sell</a>
-      <a href="/Profile.html" class="mobile-nav-link">My Account</a>
+      <a href="/sell" class="mobile-nav-link">Sell</a>
+      <a href="/profile" class="mobile-nav-link">My Account</a>
     </div>
   </div>
   <div class="overlay"></div>
@@ -606,37 +582,13 @@
       <button class="filter-btn">Shoes</button>
       <button class="filter-btn">Accessories</button>
     </div>
-    <div class="product-grid">
+    <div class="product-grid" th:each="item : ${items}">
       <div class="product-card">
-        <img src="https://via.placeholder.com/250" alt="Chanel Bag" class="product-image">
+        <img th:src="${item.imageUrl}" th:alt="${item.title}" class="product-image">
         <div class="product-info">
-          <div class="product-brand">Chanel</div>
-          <div class="product-name">Classic Flap Bag</div>
-          <div class="product-price">$4,500</div>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250" alt="Gucci Jacket" class="product-image">
-        <div class="product-info">
-          <div class="product-brand">Gucci</div>
-          <div class="product-name">Tailored Jacket</div>
-          <div class="product-price">$1,200</div>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250" alt="Louboutin Heels" class="product-image">
-        <div class="product-info">
-          <div class="product-brand">Louboutin</div>
-          <div class="product-name">Red Sole Heels</div>
-          <div class="product-price">$800</div>
-        </div>
-      </div>
-      <div class="product-card">
-        <img src="https://via.placeholder.com/250" alt="Rolex Watch" class="product-image">
-        <div class="product-info">
-          <div class="product-brand">Rolex</div>
-          <div class="product-name">Datejust Watch</div>
-          <div class="product-price">$6,000</div>
+          <div class="product-brand" th:text="${item.category}">Category</div>
+          <div class="product-name" th:text="${item.title}">Item Name</div>
+          <div class="product-price" th:text="'$' + ${item.price}">Price</div>
         </div>
       </div>
     </div>
@@ -666,7 +618,7 @@
       <div>
         <div class="footer-title">Sell</div>
         <ul class="footer-links">
-          <li><a href="#">How to Sell</a></li>
+          <li><a href="/sell">How to Sell</a></li>
           <li><a href="#">Seller Guide</a></li>
           <li><a href="#">Authentication Process</a></li>
         </ul>
@@ -687,6 +639,27 @@
 
 <script>
   feather.replace();
+
+  // Mobile menu toggle
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const closeBtn = document.querySelector('.close-btn');
+  const overlay = document.querySelector('.overlay');
+
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.style.left = '0';
+    overlay.style.display = 'block';
+  });
+
+  closeBtn.addEventListener('click', () => {
+    mobileMenu.style.left = '-100%';
+    overlay.style.display = 'none';
+  });
+
+  overlay.addEventListener('click', () => {
+    mobileMenu.style.left = '-100%';
+    overlay.style.display = 'none';
+  });
 </script>
 </body>
 </html>

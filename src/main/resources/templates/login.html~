@@ -466,7 +466,7 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Login</button>
-            <a href="/register">Don't have an account? Register</a>
+            <a href="/createUser">Don't have an account? Register</a>
         </form>
     </div>
 
@@ -554,7 +554,7 @@
             <label for="password">Password</label>
             <input type="password" id="password" name="password" required>
             <button type="submit">Login</button>
-            <a href="/register">Don't have an account? Register</a>
+            <a href="/createUser">Don't have an account? Register</a>
         </form>
     </section>
 

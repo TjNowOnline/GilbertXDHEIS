@@ -40,7 +40,7 @@ public class JdbcItemRepository implements CRUDRepository {
     @Override
     public void create(Object entity) {
         Item item = (Item) entity;
-        String sql = "INSERT INTO items (title, description, price, `condition`, image_url, category, seller_id, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO items (title, description, price, condition, image_url, category, seller_id, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 item.getTitle(),
                 item.getDescription(),
@@ -62,7 +62,7 @@ public class JdbcItemRepository implements CRUDRepository {
     @Override
     public void update(Object entity) {
         Item item = (Item) entity;
-        String sql = "UPDATE items SET title = ?, description = ?, price = ?, `condition` = ?, image_url = ?, category = ?, seller_id = ?, is_active = ? WHERE item_id = ?";
+        String sql = "UPDATE items SET title = ?, description = ?, price = ?, condition = ?, image_url = ?, category = ?, seller_id = ?, is_active = ? WHERE item_id = ?";
         jdbcTemplate.update(sql,
                 item.getTitle(),
                 item.getDescription(),
