@@ -20,10 +20,6 @@ public class JdbcItemRepository implements CRUDRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
     private final RowMapper<Item> itemRowMapper = new RowMapper<>() {
         @Override
         public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
