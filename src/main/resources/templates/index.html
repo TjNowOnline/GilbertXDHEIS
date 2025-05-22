@@ -383,6 +383,29 @@
       font-size: clamp(12px, 1.2vw, 14px);
     }
 
+    /* Logout Button Styles */
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .logout-btn:hover {
+      color: var(--light-green);
+    }
+
+    /* Hidden Logout Form */
+    .logout-form {
+      display: none;
+    }
+
     /* Responsive Styles */
     @media (min-width: 576px) {
       .app-container, .container {
@@ -473,6 +496,10 @@
       <a href="#" class="mobile-nav-link">Brands</a>
       <a href="/sell" class="mobile-nav-link">Sell</a>
       <a href="/profile" class="mobile-nav-link">My Account</a>
+      <button type="submit" form="logoutForm" class="logout-btn mobile-nav-link">
+        <div data-feather="log-out"></div>
+        Logout
+      </button>
     </div>
   </div>
   <div class="overlay"></div>
@@ -551,6 +578,10 @@
           <div class="footer-icon" data-feather="user"></div>
           <div>Profile</div>
         </a>
+        <button type="submit" form="logoutForm" class="logout-btn footer-btn">
+          <div class="footer-icon" data-feather="log-out"></div>
+          <div>Logout</div>
+        </button>
       </div>
     </nav>
   </header>
@@ -567,6 +598,10 @@
       <a href="#" class="mobile-nav-link">Brands</a>
       <a href="/sell" class="mobile-nav-link">Sell</a>
       <a href="/profile" class="mobile-nav-link">My Account</a>
+      <button type="submit" form="logoutForm" class="logout-btn mobile-nav-link">
+        <div data-feather="log-out"></div>
+        Logout
+      </button>
     </div>
   </div>
   <div class="overlay"></div>
@@ -636,6 +671,11 @@
     <div class="copyright">© 2025 Gilbert. All rights reserved.</div>
   </footer>
 </div>
+
+<!-- Logout Form -->
+<form id="logoutForm" th:action="@{/logout}" method="post" class="logout-form">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+</form>
 
 <script>
   feather.replace();
