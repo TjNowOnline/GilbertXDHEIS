@@ -88,7 +88,12 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-text</artifactId>
+            <version>1.11.0</version>
+            <!--    ^dependencct fore Levenshtein distance search-->
+        </dependency>
     </dependencies>
     <build>
         <plugins>
