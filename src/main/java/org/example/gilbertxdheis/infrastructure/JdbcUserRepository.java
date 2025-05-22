@@ -69,11 +69,17 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
 
     @Override
     public void update(User user) {
-        String sql = "UPDATE users SET username = ?, password = ?, is_verified = ?, role = ? WHERE email = ?";
-        String role = user.getRole() != null && !user.getRole().startsWith("ROLE_")
-                ? "ROLE_" + user.getRole().toUpperCase()
-                : user.getRole();
-        jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.isVerified(), role, user.getEmail());
+        String sql = "UPDATE users SET username = ?, first_name = ?, last_name = ?, email = ?, password = ?, address = ?, postal_code = ?, business_id = ? WHERE email = ?";
+        jdbcTemplate.update(sql,
+                user.getUsername(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPassword(),
+                user.getAddress(),
+                user.getPostalCode(),
+                user.getBusinessId(),
+                user.getEmail());
     }
 
     @Override
