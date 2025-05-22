@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
   <meta charset="UTF-8">
   <script src="https://unpkg.com/feather-icons"></script>
@@ -517,6 +517,28 @@
       font-size: clamp(12px, 1.2vw, 14px);
     }
 
+    /* Logout Button Styles */
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .logout-btn:hover {
+      color: var(--light-green);
+    }
+
+    .logout-form {
+      display: none;
+    }
+
     /* Responsive Styles */
     @media (min-width: 576px) {
       .app-container, .container {
@@ -633,6 +655,12 @@
       <a href="/sell" class="mobile-nav-link">Sell</a>
       <a href="/create-profile" class="mobile-nav-link">Create Profile</a>
       <a href="/my-profile" class="mobile-nav-link">My Profile</a>
+      <div sec:authorize="isAuthenticated()">
+        <button type="submit" form="logoutForm" class="logout-btn mobile-nav-link">
+          <div data-feather="log-out"></div>
+          Logout
+        </button>
+      </div>
     </div>
   </div>
   <div class="overlay"></div>
@@ -780,6 +808,12 @@
           <div class="footer-icon" data-feather="user"></div>
           <div>My Profile</div>
         </a>
+        <div sec:authorize="isAuthenticated()">
+          <button type="submit" form="logoutForm" class="logout-btn footer-btn">
+            <div class="footer-icon" data-feather="log-out"></div>
+            <div>Logout</div>
+          </button>
+        </div>
       </div>
     </nav>
   </header>
@@ -797,6 +831,12 @@
       <a href="/sell" class="mobile-nav-link">Sell</a>
       <a href="/create-profile" class="mobile-nav-link">Create Profile</a>
       <a href="/my-profile" class="mobile-nav-link">My Profile</a>
+      <div sec:authorize="isAuthenticated()">
+        <button type="submit" form="logoutForm" class="logout-btn mobile-nav-link">
+          <div data-feather="log-out"></div>
+          Logout
+        </button>
+      </div>
     </div>
   </div>
   <div class="overlay"></div>
@@ -933,6 +973,11 @@
   </footer>
 </div>
 
+<!-- Logout Form -->
+<form id="logoutForm" th:action="@{/logout}" method="post" class="logout-form">
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+</form>
+
 <script>
   feather.replace();
 
@@ -942,20 +987,22 @@
   const closeBtn = document.querySelector('.close-btn');
   const overlay = document.querySelector('.overlay');
 
-  menuToggle.addEventListener('click', () => {
-    mobileMenu.style.left = '0';
-    overlay.style.display = 'block';
-  });
+  if (menuToggle && mobileMenu && closeBtn && overlay) {
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.style.left = '0';
+      overlay.style.display = 'block';
+    });
 
-  closeBtn.addEventListener('click', () => {
-    mobileMenu.style.left = '-100%';
-    overlay.style.display = 'none';
-  });
+    closeBtn.addEventListener('click', () => {
+      mobileMenu.style.left = '-100%';
+      overlay.style.display = 'none';
+    });
 
-  overlay.addEventListener('click', () => {
-    mobileMenu.style.left = '-100%';
-    overlay.style.display = 'none';
-  });
+    overlay.addEventListener('click', () => {
+      mobileMenu.style.left = '-100%';
+      overlay.style.display = 'none';
+    });
+  }
 </script>
 </body>
 </html>
