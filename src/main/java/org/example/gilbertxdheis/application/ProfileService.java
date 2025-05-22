@@ -33,15 +33,26 @@ public class ProfileService {
             profile.setUsername(foundUser.getUsername());
             profile.setEmail(foundUser.getEmail());
             profile.setRole(foundUser.getRole());
-            profile.setBio("This seller offers premium pre-owned goods."); // Default bio, can be fetched from DB
-            profile.setProfilePicture("https://via.placeholder.com/150"); // Default placeholder image
+            profile.setBio("This seller offers premium pre-owned goods.");
+            profile.setProfilePicture("https://via.placeholder.com/150");
+            profile.setItemsSold(profile.getItemsSold());
+            profile.setFollowers(profile.getFollowers());
             return Optional.of(profile);
         }
         return Optional.empty();
     }
 
     public SellerStats getSellerStats(Long userId) {
-        // Replace with actual database logic
-        return new SellerStats(50, 2500.00, 4.5); // Example values
+        Optional<User> user = jdbcUserRepository.findById(userId);
+        if (user.isPresent()) {
+            User foundUser = user.get();
+            SellerStats sellerStats = new SellerStats();
+            return sellerStats;
+        }
+        return null;
+    }
+
+    public SellerStats getSellerStatsByUserId(Long userId) {
+        return getSellerStats(userId);
     }
 }

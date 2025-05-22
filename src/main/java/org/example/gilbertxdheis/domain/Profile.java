@@ -1,5 +1,8 @@
 package org.example.gilbertxdheis.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Profile {
     private int profileId;
     private String username;
@@ -8,24 +11,53 @@ public class Profile {
     private String profilePicture;
     private int userId;
     private String role;
+    private int itemsSold;
+    private int followers;
+    private List<Object> soldItems = new ArrayList<>();
+    private String businessId;
 
-    public Profile(int profileId, String bio, String profilePicture, int userId, String role) {
+
+    // Default constructor
+    public Profile() {
+    }
+
+    // Parameterized constructor
+    public Profile(int profileId, String username, String email, String bio, String profilePicture, int userId, String role, int itemsSold, int followers, String businessId) {
         this.profileId = profileId;
+        this.username = username;
+        this.email = email;
         this.bio = bio;
         this.profilePicture = profilePicture;
         this.userId = userId;
         this.role = role;
+        this.itemsSold = itemsSold;
+        this.followers = followers;
+        this.businessId = businessId; // Initialize new field
     }
 
-    public Profile() {
-    }
-
+    // Getters and Setters
     public int getProfileId() {
         return profileId;
     }
 
     public void setProfileId(int profileId) {
         this.profileId = profileId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getBio() {
@@ -60,19 +92,35 @@ public class Profile {
         this.role = role;
     }
 
-    public String getUsername() {
-        return username;
+    public int getItemsSold() {
+        return itemsSold;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setItemsSold(int itemsSold) {
+        this.itemsSold = itemsSold;
     }
 
-    public String getEmail() {
-        return email;
+    public int getFollowers() {
+        return followers;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFollowers(int followers) {
+        this.followers = followers;
+    }
+
+    public List<Object> getSoldItems() {
+        return soldItems;
+    }
+
+    public void setSoldItems(List<Object> soldItems) {
+        this.soldItems = soldItems;
+    }
+
+    public String getBusinessId() { // Getter for businessId
+        return businessId;
+    }
+
+    public void setBusinessId(String businessId) { // Setter for businessId
+        this.businessId = businessId;
     }
 }

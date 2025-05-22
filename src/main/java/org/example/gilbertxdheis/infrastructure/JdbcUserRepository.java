@@ -1,5 +1,6 @@
 package org.example.gilbertxdheis.infrastructure;
 
+import org.example.gilbertxdheis.domain.Feedback;
 import org.example.gilbertxdheis.domain.Item;
 import org.example.gilbertxdheis.domain.Report;
 import org.example.gilbertxdheis.domain.User;
@@ -221,5 +222,33 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
                     rs.getBoolean("is_active")
             );
         };
+    }
+
+    private final RowMapper<Feedback> feedbackRowMapper = (rs, rowNum) -> new Feedback(
+            rs.getInt("feedback_id"),
+            rs.getInt("order_id"),
+            rs.getInt("item_id"),
+            rs.getInt("rating"),
+            rs.getString("comment")
+    );
+
+    public void saveFeedback(Feedback feedback) {
+        String sql = "INSERT INTO feedback (order_id, item_id, rating, comment) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, feedback.getOrderId(), feedback.getItemId(), feedback.getRating(), feedback.getComment());
+    }
+
+    public List<Feedback> findByItemId(int itemId) {
+        String sql = "SELECT * FROM feedback WHERE item_id = ?";
+        return jdbcTemplate.query(sql, feedbackRowMapper, itemId);
+    }
+
+    public List<Feedback> findFeedbackBySellerId(Long sellerId) {
+        String sql = "SELECT f.* FROM feedback f JOIN items i ON f.item_id = i.item_id WHERE i.seller_id = ?";
+        return jdbcTemplate.query(sql, feedbackRowMapper, sellerId);
+    }
+
+    public List<Feedback> findFeedbackByItemId(int itemId) {
+        String sql = "SELECT * FROM feedback WHERE item_id = ?";
+        return jdbcTemplate.query(sql, feedbackRowMapper, itemId);
     }
 }

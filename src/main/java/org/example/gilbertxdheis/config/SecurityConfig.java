@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
@@ -27,25 +28,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder());
-
         http
-                .authenticationProvider(authProvider)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/users/create").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/moderator/**").hasRole("MODERATOR")
-                        .requestMatchers("/member/**").hasRole("USER")
                         .requestMatchers("/login", "/register", "/css/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
-                        .successHandler(customAuthenticationSuccessHandler())
-                        .failureUrl("/login?error")
+                        .successHandler(customAuthenticationSuccessHandler()) // Call the method to get the bean
+                        .failureHandler(customAuthenticationFailureHandler()) // Call the method to get the bean
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -61,6 +53,17 @@ public class SecurityConfig {
             String email = authentication.getName();
             userRepository.updateLastLogin(email);
 
+            // Retrieve userId and store it in the session
+            Long userId = Long.valueOf(userRepository.findByEmail(email)
+                    .map(user -> user.getUserId())
+                    .orElse(null));
+
+            if (userId != null) {
+                request.getSession().setAttribute("userId", userId);
+                System.out.println("User logged in with userId: " + userId);
+            }
+
+            // Redirect based on roles
             if (authentication.getAuthorities().stream()
                     .anyMatch(grantedAuthority ->
                             grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
@@ -70,8 +73,16 @@ public class SecurityConfig {
                             grantedAuthority.getAuthority().equals("ROLE_MODERATOR"))) {
                 response.sendRedirect("/moderator");
             } else {
-                response.sendRedirect("/");
+                response.sendRedirect("/my-profile"); // Redirect to /my-profile for regular users
             }
+        };
+    }
+
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return (request, response, exception) -> {
+            System.out.println("Login failed: " + exception.getMessage());
+            response.sendRedirect("/login?error=true");
         };
     }
 

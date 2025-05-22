@@ -15,6 +15,10 @@ public class Feedback {
         this.comment = comment;
     }
 
+    public Feedback() {
+
+    }
+
     public int getFeedbackId() {
         return feedbackId;
     }

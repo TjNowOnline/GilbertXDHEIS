@@ -22,25 +22,37 @@ public class RoleController {
 
     @PostMapping("/assign")
     public ResponseEntity<String> assignRole(@RequestParam Long userId, @RequestParam String role) {
-        boolean success = roleService.assignRoleToUser(userId, role);
-        if (success) {
-            return ResponseEntity.ok("Role assigned successfully.");
+        try {
+            boolean success = roleService.assignRoleToUser(userId, role);
+            if (success) {
+                return ResponseEntity.ok("Role assigned successfully.");
+            }
+            return ResponseEntity.badRequest().body("Failed to assign role.");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
-        return ResponseEntity.badRequest().body("Failed to assign role.");
     }
 
     @PostMapping("/remove")
     public ResponseEntity<String> removeRole(@RequestParam Long userId) {
-        boolean success = roleService.removeRoleFromUser(userId);
-        if (success) {
-            return ResponseEntity.ok("Role removed successfully.");
+        try {
+            boolean success = roleService.removeRoleFromUser(userId);
+            if (success) {
+                return ResponseEntity.ok("Role removed successfully.");
+            }
+            return ResponseEntity.badRequest().body("Failed to remove role.");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error: " + e.getMessage());
         }
-        return ResponseEntity.badRequest().body("Failed to remove role.");
     }
 
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = (List<User>) userRepository.findAll();
-        return ResponseEntity.ok(users);
+        try {
+            List<User> users = (List<User>) userRepository.findAll();
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(null);
+        }
     }
 }

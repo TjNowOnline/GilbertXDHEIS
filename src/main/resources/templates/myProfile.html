@@ -6,7 +6,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Seller Profile - Gilbert</title>
+  <title>My Profile - Gilbert</title>
   <style>
     :root {
       --dark-green: #004224;
@@ -261,7 +261,7 @@
       color: var(--dark-brown);
     }
 
-    .follow-btn {
+    .edit-profile-btn {
       background: var(--dark-green);
       color: var(--white);
       border: none;
@@ -269,23 +269,11 @@
       border-radius: 4px;
       font-size: 14px;
       cursor: pointer;
-    }
-
-    .follow-btn:hover {
-      background: var(--light-green);
-    }
-
-    .more-options {
-      color: var(--dark-green);
-      font-size: 20px;
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      padding: 5px;
     }
 
-    .more-options:hover {
-      color: var(--light-green);
+    .edit-profile-btn:hover {
+      background: var(--light-green);
     }
 
     .tabs {
@@ -321,7 +309,11 @@
     #items-for-sale-tab:checked ~ .tab-content#items-for-sale,
     #sold-items-tab:checked ~ .tab-content#sold-items,
     #about-tab:checked ~ .tab-content#about,
-    #feedback-tab:checked ~ .tab-content#feedback {
+    #feedback-tab:checked ~ .tab-content#feedback,
+    #items-for-sale-tab-mobile:checked ~ .tab-content#items-for-sale-mobile,
+    #sold-items-tab-mobile:checked ~ .tab-content#sold-items-mobile,
+    #about-tab-mobile:checked ~ .tab-content#about-mobile,
+    #feedback-tab-mobile:checked ~ .tab-content#feedback-mobile {
       display: block;
     }
 
@@ -398,56 +390,6 @@
       font-weight: 600;
       margin-bottom: 20px;
       color: var(--dark-green);
-    }
-
-    .feedback-form {
-      background: var(--white);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 20px;
-    }
-
-    .feedback-form textarea {
-      width: 100%;
-      min-height: 100px;
-      padding: 10px;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      font-size: 14px;
-      resize: vertical;
-      margin-bottom: 10px;
-    }
-
-    .feedback-form label {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--dark-green);
-      margin-right: 10px;
-    }
-
-    .feedback-form select {
-      padding: 5px;
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      font-size: 14px;
-      color: var(--dark-green);
-      margin-bottom: 10px;
-    }
-
-    .feedback-form button {
-      background: var(--dark-green);
-      color: var(--white);
-      border: none;
-      padding: 10px 20px;
-      border-radius: 4px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .feedback-form button:hover {
-      background: var(--light-green);
     }
 
     .feedback-list {
@@ -629,13 +571,8 @@
         font-size: 14px;
       }
 
-      .follow-btn {
+      .edit-profile-btn {
         padding: 10px 16px;
-      }
-
-      .more-options {
-        font-size: 24px;
-        padding: 8px;
       }
 
       .items-grid {
@@ -689,13 +626,13 @@
       <button class="close-btn">×</button>
     </div>
     <div class="mobile-nav-links">
-      <a href="index.html" class="mobile-nav-link">Home</a>
+      <a href="/" class="mobile-nav-link">Home</a>
       <a href="#" class="mobile-nav-link">Women</a>
       <a href="#" class="mobile-nav-link">Men</a>
       <a href="#" class="mobile-nav-link">Brands</a>
       <a href="#" class="mobile-nav-link">Sell</a>
       <a href="create-profile.html" class="mobile-nav-link">Create Profile</a>
-      <a href="seller-profile.html" class="mobile-nav-link">View Seller Profile</a>
+      <a href="my-profile.html" class="mobile-nav-link">My Profile</a>
     </div>
   </div>
   <div class="overlay"></div>
@@ -707,28 +644,25 @@
         <img th:src="${profile.profilePicture} ?: 'https://via.placeholder.com/60/0a5a36/ffffff?text=?'" alt="Default Profile" onerror="this.src='https://via.placeholder.com/60/0a5a36/ffffff?text=?'">
       </div>
       <div class="seller-details">
-        <div class="seller-username" th:text="${profile.username}">LuxurySeller123</div>
-        <div class="expert-seller" th:text="${profile.itemsSold > 25 ? 'EXPERT SELLER' : ''}">EXPERT SELLER</div>
+        <div class="seller-username" th:text="${profile.username}">MyUsername</div>
+        <div class="expert-seller" th:text="${profile.itemsSold > 25 ? 'EXPERT SELLER' : ''}"></div>
         <div class="seller-stats">
-          <span th:text="${profile.itemsSold} + ' Items Sold'">42 Items Sold</span>
-          <span th:text="${profile.followers} ?: 0 + ' Followers'">150 Followers</span>
+          <span th:text="${profile.itemsSold} + ' Items Sold'">0 Items Sold</span>
+          <span th:text="${profile.followers} ?: 0 + ' Followers'">0 Followers</span>
         </div>
       </div>
-      <button class="follow-btn">Follow</button>
-      <a th:href="'/report-seller?sellerId=' + ${profile.id}" class="more-options">
-        <div data-feather="more-vertical"></div>
-      </a>
+      <a href="create-profile.html" class="edit-profile-btn">Edit Profile</a>
     </div>
     <div class="tabs">
-      <input type="radio" name="tabs" id="items-for-sale-tab" class="tab" checked>
-      <label for="items-for-sale-tab">Items for Sale</label>
-      <input type="radio" name="tabs" id="sold-items-tab" class="tab">
-      <label for="sold-items-tab">Sold Items</label>
-      <input type="radio" name="tabs" id="about-tab" class="tab">
-      <label for="about-tab">About</label>
-      <input type="radio" name="tabs" id="feedback-tab" class="tab">
-      <label for="feedback-tab">Feedback</label>
-      <div class="tab-content" id="items-for-sale">
+      <input type="radio" name="tabs" id="items-for-sale-tab-mobile" class="tab" checked>
+      <label for="items-for-sale-tab-mobile">Items for Sale</label>
+      <input type="radio" name="tabs" id="sold-items-tab-mobile" class="tab">
+      <label for="sold-items-tab-mobile">Sold Items</label>
+      <input type="radio" name="tabs" id="about-tab-mobile" class="tab">
+      <label for="about-tab-mobile">About</label>
+      <input type="radio" name="tabs" id="feedback-tab-mobile" class="tab">
+      <label for="feedback-tab-mobile">Feedback</label>
+      <div class="tab-content" id="items-for-sale-mobile">
         <div class="sort-bar">
           <span class="sort-label">Sort by:</span>
           <select class="sort-select">
@@ -738,53 +672,49 @@
           </select>
         </div>
         <div class="items-grid">
-          <div class="item-card" th:each="item : ${itemsForSale}">
-            <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
-            <div class="item-info">
-              <h3 th:text="${item.name}">Chanel Classic Flap Bag</h3>
-              <p th:text="'$' + ${item.price}">4,500</p>
+          <div th:if="${itemsForSale != null and !itemsForSale.isEmpty()}">
+            <div class="item-card" th:each="item : ${itemsForSale}">
+              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
+              <div class="item-info">
+                <h3 th:text="${item.name}">Item Name</h3>
+                <p th:text="'$' + ${item.price}">0.00</p>
+              </div>
             </div>
+          </div>
+          <div th:if="${itemsForSale == null or itemsForSale.isEmpty()}" class="no-feedback">No items for sale.</div>
+        </div>
+      </div>
+      <div class="tab-content" id="sold-items-mobile">
+        <div class="sold-items-section">
+          <h2>Sold Items</h2>
+          <div th:if="${profile.soldItems != null and !profile.soldItems.isEmpty()}">
+            <div class="items-grid">
+              <div class="item-card" th:each="item : ${profile.soldItems}">
+                <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
+                <div class="item-info">
+                  <h3 th:text="${item.name}">Item Name</h3>
+                  <p th:text="'Sold for $' + ${item.soldPrice}">0.00</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div th:if="${profile.soldItems == null or profile.soldItems.isEmpty()}" class="no-feedback">
+            <p>No items sold.</p>
           </div>
         </div>
       </div>
-      <div class="tab-content" id="sold-items">
-        <div class="items-grid">
-          <div class="item-card" th:each="item : ${soldItems}">
-            <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
-            <div class="item-info">
-              <h3 th:text="${item.name}">Past Item 1</h3>
-              <p th:text="'Sold for $' + ${item.soldPrice}">45.00</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-content" id="about">
+      <div class="tab-content" id="about-mobile">
         <div class="about-content">
-          <p><strong>Bio:</strong> <span th:text="${profile.bio}">Passionate about sustainable luxury fashion.</span></p>
-          <p><strong>Business ID:</strong> <span th:text="${profile.businessId}">DK12345678</span></p>
-          <p><strong>Rating:</strong> <span th:text="${sellerStats.rating} + '/5'">4.8/5</span></p>
+          <p><strong>Bio:</strong> <span th:text="${profile.bio} ?: 'No bio provided'">Your bio goes here.</span></p>
+          <p><strong>Business ID:</strong> <span th:text="${profile.businessId} ?: 'Not provided'">Not provided</span></p>
+          <p><strong>Rating:</strong> <span th:text="${sellerStats != null and sellerStats.rating != null} ? (${sellerStats.rating} + '/5') : 'No rating available'">0.0/5</span></p>
         </div>
       </div>
-      <div class="tab-content" id="feedback">
+      <div class="tab-content" id="feedback-mobile">
         <div class="feedback-section">
-          <div class="section-title">Submit Your Feedback</div>
-          <form class="feedback-form" action="/feedback/submit" method="POST">
-            <input type="hidden" name="orderId" th:value="${order.id}">
-            <input type="hidden" name="itemId" th:value="${item.id}">
-            <textarea name="comment" placeholder="Write your feedback..." required></textarea>
-            <label for="rating">Rating:</label>
-            <select name="rating" id="rating" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <button type="submit">Submit</button>
-          </form>
           <div class="section-title">Feedback</div>
-          <div th:if="${feedbackList.isEmpty()}" class="no-feedback">No feedback available.</div>
-          <ul class="feedback-list" th:unless="${feedbackList.isEmpty()}">
+          <div th:if="${feedbackList == null or feedbackList.isEmpty()}" class="no-feedback">No feedback available.</div>
+          <ul class="feedback-list" th:if="${feedbackList != null and !feedbackList.isEmpty()}">
             <li class="feedback-item" th:each="feedback : ${feedbackList}">
               <strong>Order ID:</strong> <span th:text="${feedback.orderId}"></span><br>
               <strong>Comment:</strong> <span th:text="${feedback.comment}"></span><br>
@@ -814,9 +744,9 @@
       <div class="footer-icon" data-feather="bell"></div>
       <div>Notifications</div>
     </a>
-    <a href="create-profile.html" class="footer-btn">
-      <div class="footer-icon" data-feather="user-plus"></div>
-      <div>Create Profile</div>
+    <a href="my-profile.html" class="footer-btn">
+      <div class="footer-icon" data-feather="user"></div>
+      <div>My Profile</div>
     </a>
   </div>
 </div>
@@ -827,15 +757,15 @@
   <header>
     <nav>
       <button class="menu-toggle">☰</button>
-      <a href="index.html" class="logo">Gilbert</a>
+      <a href="/" class="logo">Gilbert</a>
       <div class="nav-menu">
-        <a href="index.html" class="nav-link">Home</a>
+        <a href="/" class="nav-link">Home</a>
         <a href="#" class="nav-link">Women</a>
         <a href="#" class="nav-link">Men</a>
         <a href="#" class="nav-link">Brands</a>
         <a href="#" class="nav-link">Sell</a>
         <a href="create-profile.html" class="nav-link">Create Profile</a>
-        <a href="seller-profile.html" class="nav-link">View Seller Profile</a>
+        <a href="my-profile.html" class="nav-link">My Profile</a>
       </div>
       <div class="user-actions">
         <div class="search-bar">
@@ -846,9 +776,9 @@
           <div class="footer-icon" data-feather="heart"></div>
           <div>Favorites</div>
         </a>
-        <a href="#" class="footer-btn">
+        <a href="my-profile.html" class="footer-btn">
           <div class="footer-icon" data-feather="user"></div>
-          <div>Profile</div>
+          <div>My Profile</div>
         </a>
       </div>
     </nav>
@@ -866,7 +796,7 @@
       <a href="#" class="mobile-nav-link">Brands</a>
       <a href="#" class="mobile-nav-link">Sell</a>
       <a href="create-profile.html" class="mobile-nav-link">Create Profile</a>
-      <a href="seller-profile.html" class="mobile-nav-link">View Seller Profile</a>
+      <a href="my-profile.html" class="mobile-nav-link">My Profile</a>
     </div>
   </div>
   <div class="overlay"></div>
@@ -878,17 +808,14 @@
         <img th:src="${profile.profilePicture} ?: 'https://via.placeholder.com/80/0a5a36/ffffff?text=?'" alt="Default Profile" onerror="this.src='https://via.placeholder.com/80/0a5a36/ffffff?text=?'">
       </div>
       <div class="seller-details">
-        <div class="seller-username" th:text="${profile.username}">LuxurySeller123</div>
-        <div class="expert-seller" th:text="${profile.itemsSold > 25 ? 'EXPERT SELLER' : ''}">EXPERT SELLER</div>
+        <div class="seller-username" th:text="${profile.username}">MyUsername</div>
+        <div class="expert-seller" th:text="${profile.itemsSold > 25 ? 'EXPERT SELLER' : ''}"></div>
         <div class="seller-stats">
-          <span th:text="${profile.itemsSold} + ' Items Sold'">42 Items Sold</span>
-          <span th:text="${profile.followers} ?: 0 + ' Followers'">150 Followers</span>
+          <span th:text="${profile.itemsSold} + ' Items Sold'">0 Items Sold</span>
+          <span th:text="${profile.followers} ?: 0 + ' Followers'">0 Followers</span>
         </div>
       </div>
-      <button class="follow-btn">Follow</button>
-      <a th:href="'/report-seller?sellerId=' + ${profile.id}" class="more-options">
-        <div data-feather="more-vertical"></div>
-      </a>
+      <a href="create-profile.html" class="edit-profile-btn">Edit Profile</a>
     </div>
     <div class="tabs">
       <input type="radio" name="tabs-desktop" id="items-for-sale-tab-desktop" class="tab" checked>
@@ -909,53 +836,49 @@
           </select>
         </div>
         <div class="items-grid">
-          <div class="item-card" th:each="item : ${itemsForSale}">
-            <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
-            <div class="item-info">
-              <h3 th:text="${item.name}">Chanel Classic Flap Bag</h3>
-              <p th:text="'$' + ${item.price}">4,500</p>
+          <div th:if="${itemsForSale != null and !itemsForSale.isEmpty()}">
+            <div class="item-card" th:each="item : ${itemsForSale}">
+              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
+              <div class="item-info">
+                <h3 th:text="${item.name}">Item Name</h3>
+                <p th:text="'$' + ${item.price}">0.00</p>
+              </div>
             </div>
           </div>
+          <div th:if="${itemsForSale == null or itemsForSale.isEmpty()}" class="no-feedback">No items for sale.</div>
         </div>
       </div>
       <div class="tab-content" id="sold-items">
-        <div class="items-grid">
-          <div class="item-card" th:each="item : ${soldItems}">
-            <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
-            <div class="item-info">
-              <h3 th:text="${item.name}">Past Item 1</h3>
-              <p th:text="'Sold for $' + ${item.soldPrice}">45.00</p>
+        <div class="sold-items-section">
+          <h2>Sold Items</h2>
+          <div th:if="${profile.soldItems != null and !profile.soldItems.isEmpty()}">
+            <div class="items-grid">
+              <div class="item-card" th:each="item : ${profile.soldItems}">
+                <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.name}">
+                <div class="item-info">
+                  <h3 th:text="${item.name}">Item Name</h3>
+                  <p th:text="'Sold for $' + ${item.soldPrice}">0.00</p>
+                </div>
+              </div>
             </div>
+          </div>
+          <div th:if="${profile.soldItems == null or profile.soldItems.isEmpty()}" class="no-feedback">
+            <p>No items sold.</p>
           </div>
         </div>
       </div>
       <div class="tab-content" id="about">
         <div class="about-content">
-          <p><strong>Bio:</strong> <span th:text="${profile.bio}">Passionate about sustainable luxury fashion.</span></p>
-          <p><strong>Business ID:</strong> <span th:text="${profile.businessId}">DK12345678</span></p>
-          <p><strong>Rating:</strong> <span th:text="${sellerStats.rating} + '/5'">4.8/5</span></p>
+          <p><strong>Bio:</strong> <span th:text="${profile.bio} ?: 'No bio provided'">Your bio goes here.</span></p>
+          <p><strong>Business ID:</strong> <span th:text="${profile.businessId} ?: 'Not provided'">Not provided</span></p>
+          <p><strong>Rating:</strong> <span th:text="${sellerStats != null and sellerStats.rating != null} ? (${sellerStats.rating} + '/5') : 'No rating available'">0.0/5</span></p>
         </div>
       </div>
       <div class="tab-content" id="feedback">
         <div class="feedback-section">
-          <div class="section-title">Submit Your Feedback</div>
-          <form class="feedback-form" action="/feedback/submit" method="POST">
-            <input type="hidden" name="orderId" th:value="${order.id}">
-            <input type="hidden" name="itemId" th:value="${item.id}">
-            <textarea name="comment" placeholder="Write your feedback..." required></textarea>
-            <label for="rating-desktop">Rating:</label>
-            <select name="rating" id="rating-desktop" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select>
-            <button type="submit">Submit</button>
-          </form>
           <div class="section-title">Feedback</div>
-          <div th:if="${feedbackList.isEmpty()}" class="no-feedback">No feedback available.</div>
-          <ul class="feedback-list" th:unless="${feedbackList.isEmpty()}">
+          <div th:if="${feedbackList == null or feedbackList.isEmpty()}" class="no-feedback">No feedback available.</div>
+          <ul class="feedback-list" th:if="${feedbackList != null and !feedbackList.isEmpty()}">
             <li class="feedback-item" th:each="feedback : ${feedbackList}">
               <strong>Order ID:</strong> <span th:text="${feedback.orderId}"></span><br>
               <strong>Comment:</strong> <span th:text="${feedback.comment}"></span><br>
