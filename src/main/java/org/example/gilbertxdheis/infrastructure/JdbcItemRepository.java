@@ -20,28 +20,78 @@ public class JdbcItemRepository implements CRUDRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    private final RowMapper<Item> itemRowMapper = new RowMapper<>() {
+        @Override
+        public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Item(
+                    rs.getInt("item_id"),
+                    rs.getString("title"),
+                    rs.getString("description"),
+                    rs.getDouble("price"),
+                    rs.getString("condition"),
+                    rs.getString("image_url"),
+                    rs.getString("category"),
+                    rs.getInt("seller_id"),
+                    rs.getBoolean("is_active")
+            );
+        }
+    };
+
     @Override
     public void create(Object entity) {
+        Item item = (Item) entity;
+        String sql = "INSERT INTO items (title, description, price, condition, image_url, category, seller_id, is_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                item.getTitle(),
+                item.getDescription(),
+                item.getPrice(),
+                item.getCondition(),
+                item.getImageUrl(),
+                item.getCategory(),
+                item.getSellerId(),
+                item.isActive()
+        );
     }
 
     @Override
-    public Object read(Object o) {
-        return null;
+    public Object read(Object id) {
+        String sql = "SELECT * FROM items WHERE item_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, itemRowMapper);
     }
 
     @Override
     public void update(Object entity) {
-
+        Item item = (Item) entity;
+        String sql = "UPDATE items SET title = ?, description = ?, price = ?, condition = ?, image_url = ?, category = ?, seller_id = ?, is_active = ? WHERE item_id = ?";
+        jdbcTemplate.update(sql,
+                item.getTitle(),
+                item.getDescription(),
+                item.getPrice(),
+                item.getCondition(),
+                item.getImageUrl(),
+                item.getCategory(),
+                item.getSellerId(),
+                item.isActive(),
+                item.getItemId()
+        );
     }
 
     @Override
     public void delete(Object entity) {
-
+        Item item = (Item) entity;
+        String sql = "DELETE FROM items WHERE item_id = ?";
+        jdbcTemplate.update(sql, item.getItemId());
     }
 
     @Override
-    public Iterable findAll() {
-        return null;
+    public Iterable<Item> findAll() {
+        String sql = "SELECT * FROM items";
+        List<Item> items = jdbcTemplate.query(sql, itemRowMapper);
+        return items;
     }
 
 
