@@ -494,7 +494,7 @@
     <div class="footer-icon" data-feather="home"></div>
     <div>Home</div>
   </a>
-  <a href="#" class="footer-btn">
+  <a href="#" class="footer-btn" onclick="document.getElementById('mobileSearchForm').submit();">
     <div class="footer-icon" data-feather="search"></div>
     <div>Search</div>
   </a>
@@ -528,10 +528,14 @@
         <a href="/sell" class="nav-link">Sell</a>
       </div>
       <div class="user-actions">
-        <div class="search-bar">
-          <input type="text" placeholder="Search for items...">
-          <div data-feather="search"></div>
-        </div>
+    <form id="desktopSearchForm" action="/search" method="get" class="search-bar">
+        <input type="text" name="query" placeholder="Search for items..." th:value="${searchQuery}">
+        <button type="submit" style="background: none; border: none; cursor: pointer;">
+            <div data-feather="search"></div>
+        </button>
+    </form>
+    <!-- rest of the user-actions content -->
+</div>
         <a href="#" class="footer-btn">
           <div class="footer-icon" data-feather="heart"></div>
           <div>Favorites</div>

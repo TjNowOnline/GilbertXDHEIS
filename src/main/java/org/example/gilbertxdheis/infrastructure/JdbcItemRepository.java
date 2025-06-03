@@ -125,4 +125,17 @@ public class JdbcItemRepository implements CRUDRepository {
             return Optional.empty();
         }
     }
+    public List<Item> searchItems(String query) {
+        String searchQuery = "SELECT * FROM items WHERE " +
+                "LOWER(title) LIKE LOWER(?) OR " +
+                "LOWER(description) LIKE LOWER(?) OR " +
+                "LOWER(category) LIKE LOWER(?)";
+
+        String searchPattern = "%" + query + "%";
+        return jdbcTemplate.query(
+            searchQuery,
+            itemRowMapper,
+            searchPattern, searchPattern, searchPattern
+        );
+    }
 }

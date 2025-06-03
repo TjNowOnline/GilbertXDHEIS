@@ -15,7 +15,9 @@ import java.util.List;
 @Service
 public class ItemService {
     private final JdbcItemRepository itemRepository;
-    private final LevenshteinDistance levenshtein = new LevenshteinDistance(2);
+    private final LevenshteinDistance levenshtein = new LevenshteinDistance();
+    private static final int MAX_DISTANCE = 2; // Reduced from 2 to 1 for stricter matching
+
     //Levenshtein is our fuzzy search algorithm
 
     public ItemService(JdbcItemRepository itemRepository) {
@@ -33,14 +35,15 @@ public class ItemService {
     public List<Item> getAllItems(){
         return (List<Item>) itemRepository.findAll(); }
 
-    public List<Item> searchItem (String query) {
+    public List<Item> searchItem(String query) {
         if (query == null || query.trim().isEmpty()) {
             return getAllItems();
         }
-        String lowerQuery = query.toLowerCase();
-        return getAllItems().stream().filter(item -> isItemMatch(item,lowerQuery)).collect(Collectors.toList());
-//                isSimilar(item.getDescription(),lowerQuery) ||
-//                isSimilar(item.getCategory(),lowerQuery).collect(Collectors.toList());
+        
+        String trimmedQuery = query.trim();
+        return getAllItems().stream()
+                .filter(item -> isItemMatch(item, trimmedQuery))
+                .collect(Collectors.toList());
     }
 
     private boolean isItemMatch (Item item, String query){
@@ -50,12 +53,23 @@ public class ItemService {
     }
 
     private boolean isSimilar(String text, String query) {
-        if (text == null)
+        if (text == null || query == null) {
             return false;
-
+        }
 
         String lowerText = text.toLowerCase();
-        return Arrays.stream(lowerText.split(" ")).anyMatch(word -> levenshtein.apply(word, query) <= 2);
+        String lowerQuery = query.toLowerCase();
+        
+        // First check for exact substring match
+        if (lowerText.contains(lowerQuery)) {
+            return true;
+        }
+        
+        // Then check individual words with Levenshtein
+        return Arrays.stream(lowerText.split("\\s+"))
+                .anyMatch(word -> 
+                    word.length() > 2 && // Only check words longer than 2 characters
+                    levenshtein.apply(word, lowerQuery) <= MAX_DISTANCE);
     }
 
 
