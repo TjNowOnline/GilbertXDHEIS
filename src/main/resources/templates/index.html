@@ -466,89 +466,51 @@
   </style>
 </head>
 
-<body>
-<!-- Mobile View (<1024px) -->
-<div class="app-container">
-  <!-- Mobile Navigation -->
-  <div class="app-navbar">
-    <div class="app-menu">
-      <button class="icon-btn menu-toggle">
-        <div data-feather="menu"></div>
-      </button>
-    </div>
-    <div class="app-logo">Gilbert</div>
-    <div class="app-user">
-      <button class="icon-btn">
-        <div data-feather="user"></div>
-      </button>
-    </div>
+<!-- Mobile Menu -->
+<div class="mobile-menu" style="left: -100%;">
+  <div class="close-menu">
+    <button class="close-btn">×</button>
   </div>
+  <div class="mobile-nav-links">
+    <a href="/" class="mobile-nav-link">Home</a>
+    <a href="#" class="mobile-nav-link">Women</a>
+    <a href="#" class="mobile-nav-link">Men</a>
+    <a href="#" class="mobile-nav-link">Brands</a>
+    <a href="/sell" class="mobile-nav-link">Sell</a>
+    <a href="/profile" class="mobile-nav-link">My Account</a>
+    <button type="submit" form="logoutForm" class="logout-btn mobile-nav-link">
+      <div data-feather="log-out"></div>
+      Logout
+    </button>
+  </div>
+</div>
+<div class="overlay" style="display:none;"></div>
 
-  <!-- Mobile Menu -->
-  <div class="mobile-menu">
-    <div class="close-menu">
-      <button class="close-btn">×</button>
-    </div>
-    <div class="mobile-nav-links">
-      <a href="/" class="mobile-nav-link">Home</a>
-      <a href="#" class="mobile-nav-link">Women</a>
-      <a href="#" class="mobile-nav-link">Men</a>
-      <a href="#" class="mobile-nav-link">Brands</a>
-      <a href="/sell" class="mobile-nav-link">Sell</a>
-      <a href="/profile" class="mobile-nav-link">My Account</a>
-      <button type="submit" form="logoutForm" class="logout-btn mobile-nav-link">
-        <div data-feather="log-out"></div>
-        Logout
-      </button>
-    </div>
-  </div>
-  <div class="overlay"></div>
+<!-- Product Section -->
 
-  <!-- Product Section -->
-  <div class="product-section">
-    <div class="section-title">Explore Luxury Fashion</div>
-    <div class="filter-bar">
-      <button class="filter-btn">Women</button>
-      <button class="filter-btn">Men</button>
-      <button class="filter-btn">Bags</button>
-      <button class="filter-btn">Clothing</button>
-      <button class="filter-btn">Shoes</button>
-    </div>
-    <div class="product-grid" th:each="item : ${items}">
-      <div class="product-card">
-        <img th:src="${item.imageUrl}" th:alt="${item.title}" class="product-image">
-        <div class="product-info">
-          <div class="product-brand" th:text="${item.category}">Category</div>
-          <div class="product-name" th:text="${item.title}">Item Name</div>
-          <div class="product-price" th:text="'$' + ${item.price}">Price</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- App Footer -->
-  <div class="app-footer">
-    <a href="/" class="footer-btn">
-      <div class="footer-icon" data-feather="home"></div>
-      <div>Home</div>
-    </a>
-    <a href="#" class="footer-btn">
-      <div class="footer-icon" data-feather="search"></div>
-      <div>Search</div>
-    </a>
-    <a href="#" class="footer-btn">
-      <div class="footer-icon" data-feather="heart"></div>
-      <div>Favorites</div>
-    </a>
-    <a href="#" class="footer-btn">
-      <div class="footer-icon" data-feather="bell"></div>
-      <div>Notifications</div>
-    </a>
-    <a href="/profile" class="footer-btn">
-      <div class="footer-icon" data-feather="user"></div>
-      <div>Profile</div>
-    </a>
-  </div>
+<!-- App Footer -->
+<div class="app-footer">
+  <a href="/" class="footer-btn">
+    <div class="footer-icon" data-feather="home"></div>
+    <div>Home</div>
+  </a>
+  <a href="#" class="footer-btn">
+    <div class="footer-icon" data-feather="search"></div>
+    <div>Search</div>
+  </a>
+  <a href="#" class="footer-btn">
+    <div class="footer-icon" data-feather="heart"></div>
+    <div>Favorites</div>
+  </a>
+  <a href="#" class="footer-btn">
+    <div class="footer-icon" data-feather="bell"></div>
+    <div>Notifications</div>
+  </a>
+  <a href="/profile" class="footer-btn">
+    <div class="footer-icon" data-feather="user"></div>
+    <div>Profile</div>
+  </a>
+</div>
 </div>
 
 <!-- Desktop View (≥1024px) -->
@@ -586,8 +548,13 @@
     </nav>
   </header>
 
+  <!-- Add this right after the header or at the top of your main content area -->
+  <div th:if="${errorMessage}" class="error-alert" style="background-color: #ffebee; color: #c62828; padding: 10px; margin: 10px; border-radius: 4px; text-align: center;">
+    <p th:text="${errorMessage}">Error message</p>
+  </div>
+
   <!-- Mobile Menu -->
-  <div class="mobile-menu">
+  <div class="mobile-menu" style="left: -100%;">
     <div class="close-menu">
       <button class="close-btn">×</button>
     </div>
@@ -604,7 +571,7 @@
       </button>
     </div>
   </div>
-  <div class="overlay"></div>
+  <div class="overlay" style="display:none;"></div>
 
   <!-- Product Section -->
   <section class="product-section">
@@ -617,14 +584,13 @@
       <button class="filter-btn">Shoes</button>
       <button class="filter-btn">Accessories</button>
     </div>
-    <div class="product-grid" th:each="item : ${items}">
-      <div class="product-card">
-        <img th:src="${item.imageUrl}" th:alt="${item.title}" class="product-image">
-        <div class="product-info">
-          <div class="product-brand" th:text="${item.category}">Category</div>
-          <div class="product-name" th:text="${item.title}">Item Name</div>
-          <div class="product-price" th:text="'$' + ${item.price}">Price</div>
-        </div>
+    <div class="items-container">
+      <div th:each="item : ${items}" class="item-card">
+        <a th:href="@{/item/{id}(id=${item.itemId})}">
+          <img th:src="@{${item.imageUrl}}" alt="Image" class="item-img"/>
+          <h2 th:text="${item.title}"></h2>
+          <p th:text="'$' + ${item.price}"></p>
+        </a>
       </div>
     </div>
   </section>
@@ -681,25 +647,25 @@
   feather.replace();
 
   // Mobile menu toggle
-  const menuToggle = document.querySelector('.menu-toggle');
-  const mobileMenu = document.querySelector('.mobile-menu');
-  const closeBtn = document.querySelector('.close-btn');
-  const overlay = document.querySelector('.overlay');
+  const menuToggle = document.querySelectorAll('.menu-toggle');
+  const mobileMenus = document.querySelectorAll('.mobile-menu');
+  const closeBtns = document.querySelectorAll('.close-btn');
+  const overlays = document.querySelectorAll('.overlay');
 
-  menuToggle.addEventListener('click', () => {
-    mobileMenu.style.left = '0';
-    overlay.style.display = 'block';
-  });
+  menuToggle.forEach(btn => btn.addEventListener('click', () => {
+    mobileMenus.forEach(menu => menu.style.left = '0');
+    overlays.forEach(overlay => overlay.style.display = 'block');
+  }));
 
-  closeBtn.addEventListener('click', () => {
-    mobileMenu.style.left = '-100%';
-    overlay.style.display = 'none';
-  });
+  closeBtns.forEach(btn => btn.addEventListener('click', () => {
+    mobileMenus.forEach(menu => menu.style.left = '-100%');
+    overlays.forEach(overlay => overlay.style.display = 'none');
+  }));
 
-  overlay.addEventListener('click', () => {
-    mobileMenu.style.left = '-100%';
-    overlay.style.display = 'none';
-  });
+  overlays.forEach(overlay => overlay.addEventListener('click', () => {
+    mobileMenus.forEach(menu => menu.style.left = '-100%');
+    overlays.forEach(overlay => overlay.style.display = 'none');
+  }));
 </script>
 </body>
 </html>

@@ -57,4 +57,9 @@ public class ItemService {
         String lowerText = text.toLowerCase();
         return Arrays.stream(lowerText.split(" ")).anyMatch(word -> levenshtein.apply(word, query) <= 2);
     }
+
+
+    public Item findById(Long id) {
+        return (Item) itemRepository.read(id);
+    }
 }

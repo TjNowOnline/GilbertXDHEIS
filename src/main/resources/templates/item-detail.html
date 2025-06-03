@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${item != null} ? ${item.title} + ' - Gilbert' : 'Item Not Found - Gilbert'">Item Details</title>
+    <style>
+        :root {
+            --dark-green: #004224;
+            --off-white: #f8f0e5;
+            --dark-brown: #423a26;
+            --white: #f8f0e5;
+            --light-green: #0a5a36;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            background-color: var(--off-white);
+            color: var(--dark-green);
+            line-height: 1.6;
+        }
+
+        /* Item Detail Specific Styles */
+        .item-detail-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--white);
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        .image-container {
+            width: 100%;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .item-image {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .description-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+        }
+
+        .info-container {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+        }
+
+        .info-container p {
+            margin: 10px 0;
+        }
+
+        h1 {
+            color: var(--dark-green);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Error Message Styles */
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            background-color: var(--dark-green);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: var(--light-green);
+        }
+
+        /* Responsive Styles */
+        @media (min-width: 768px) {
+            .item-detail-container {
+                max-width: 720px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .item-detail-container {
+                max-width: 960px;
+            }
+
+            .image-container {
+                max-width: 600px;
+                margin: 20px auto;
+            }
+        }
+
+        /* Mobile Navigation */
+        .app-navbar {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        /* Price Tag Style */
+        .price-tag {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark-green);
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        /* Condition Badge */
+        .condition-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: var(--dark-green);
+            color: var(--white);
+            border-radius: 4px;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Navigation -->
+    <nav class="app-navbar">
+        <a href="/" class="app-logo">Gilbert</a>
+    </nav>
+
+    <div class="item-detail-container">
+        <!-- Show error message if present -->
+        <div th:if="${errorMessage}" class="error-message">
+            <p th:text="${errorMessage}">Error message here</p>
+            <a href="/" class="back-button">Back to Home</a>
+        </div>
+
+        <!-- Show item details only if item exists -->
+        <div th:if="${item != null}">
+            <h1 th:text="${item.title}">Item Title</h1>
+
+            <div class="image-container">
+                <img th:src="@{${item.imageUrl}}" alt="Item Image" class="item-image"/>
+            </div>
+
+            <div class="price-tag">
+                <span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 2, 'POINT')}">0.00</span> DKK
+            </div>
+
+            <div class="condition-badge" th:text="${item.condition}">Condition</div>
+
+            <div class="description-container">
+                <p><strong>Description</strong></p>
+                <p th:text="${item.description}">Item description...</p>
+            </div>
+
+            <div class="info-container">
+                <p><strong>Category:</strong> <span th:text="${item.category}">Category</span></p>
+                <p><strong>Condition:</strong> <span th:text="${item.condition}">Condition</span></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        feather.replace();
+    </script>
+</body>
+</html>
