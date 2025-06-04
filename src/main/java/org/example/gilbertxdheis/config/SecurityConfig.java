@@ -1,5 +1,6 @@
 package org.example.gilbertxdheis.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.gilbertxdheis.application.UserDetailsServiceImpl;
 import org.example.gilbertxdheis.infrastructure.JdbcUserRepository;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CsrfTokenRepository;
@@ -32,7 +34,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/login", "/register", "/sell", "/css/**", "/js/**", "/uploads/**").permitAll()
+                        .requestMatchers("/", "/login", "/register", "/sell", "/css/**", "/js/**", "/uploads/**", "/error").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/moderator/**").hasRole("MODERATOR")

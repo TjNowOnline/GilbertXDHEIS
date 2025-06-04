@@ -118,7 +118,6 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
             user.setBusinessId(rs.getString("business_id"));
             user.setRole(rs.getString("role"));
             user.setVerified(rs.getBoolean("is_verified"));
-            user.setAdmin(rs.getBoolean("is_admin"));
             return user;
         };
     }
@@ -256,5 +255,11 @@ public class JdbcUserRepository implements CRUDRepository<User, Long> {
     public List<Feedback> findFeedbackByItemId(int itemId) {
         String sql = "SELECT * FROM feedback WHERE item_id = ?";
         return jdbcTemplate.query(sql, feedbackRowMapper, itemId);
+    }
+
+    public List<User> findByRole(String role) {
+        String normalizedRole = role.startsWith("ROLE_") ? role : "ROLE_" + role.toUpperCase();
+        String sql = "SELECT * FROM users WHERE role = ?";
+        return jdbcTemplate.query(sql, userRowMapper(), normalizedRole);
     }
 }

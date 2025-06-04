@@ -15,6 +15,7 @@ public class Profile {
     private int followers;
     private List<Item> soldItems = new ArrayList<>();
     private String businessId;
+    private String accountType;
 
 
     // Default constructor
@@ -122,5 +123,21 @@ public class Profile {
 
     public void setBusinessId(String businessId) { // Setter for businessId
         this.businessId = businessId;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public boolean isModerator() {
+        return "MODERATOR".equalsIgnoreCase(role);
+    }
+
+    public boolean isAdmin() {
+        return "ADMIN".equalsIgnoreCase(role);
     }
 }

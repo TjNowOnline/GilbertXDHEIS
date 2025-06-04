@@ -1,5 +1,7 @@
 package org.example.gilbertxdheis.presentation;
 
+import org.example.gilbertxdheis.application.BlogPostService;
+import org.example.gilbertxdheis.domain.BlogPost;
 import org.example.gilbertxdheis.application.ItemService;
 import org.example.gilbertxdheis.domain.Item;
 import org.example.gilbertxdheis.infrastructure.JdbcItemRepository;
@@ -18,6 +20,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -25,6 +29,9 @@ public class ItemController {
 
     @Autowired
     private JdbcItemRepository itemRepository;
+
+    @Autowired
+    private BlogPostService blogPostService;
 
     @Autowired
     private ItemService itemService;
@@ -78,6 +85,11 @@ public class ItemController {
     @GetMapping("/")
     public String home(Model model) {
         Iterable<Item> items = itemRepository.findAll();
+        List<BlogPost> blogPosts = blogPostService.getRecentBlogPosts(5);
+        if (blogPosts == null) {
+            blogPosts = new ArrayList<>(); // Initialize to avoid null
+        }
+        model.addAttribute("recentBlogPosts", blogPosts); // Correct attribute name
         model.addAttribute("items", items);
         return "index"; // Maps to index.html
     }
@@ -93,7 +105,7 @@ public class ItemController {
         return "/images/default.jpg"; // Fallback image
     }
 
-    
+
     @GetMapping("/item/{id}")
     public String viewItem(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
         Optional<Item> optionalItem = itemRepository.findById(id);
