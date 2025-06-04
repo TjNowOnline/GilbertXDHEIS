@@ -166,46 +166,92 @@
             font-size: 14px;
             margin: 10px 0;
         }
+
+        .primary-btn {
+            background-color: var(--dark-green);
+            color: var(--white);
+            border: none;
+            padding: 12px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 16px;
+        transition: background-color 0.3s;
+        }
+
+        .primary-btn i {
+            stroke-width: 2px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .primary-btn:hover {
+            background-color: var(--light-green);
+            text-decoration: none;
+        }
+
+        @media (max-width: 1023px) {
+            .primary-btn {
+                padding: 12px 20px;
+                width: auto;
+                display: inline-block;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Mobile Navigation -->
-    <nav class="app-navbar">
-        <a href="/" class="app-logo">Gilbert</a>
-    </nav>
+    <!-- Replace the navigation and header section with this -->
+<nav class="app-navbar">
+    <a href="/" class="app-logo">Gilbert</a>
+</nav>
 
-    <div class="item-detail-container">
-        <!-- Show error message if present -->
-        <div th:if="${errorMessage}" class="error-message">
-            <p th:text="${errorMessage}">Error message here</p>
-            <a href="/" class="back-button">Back to Home</a>
+<div class="item-detail-container">
+    <!-- Back to Home button -->
+    <div style="margin-bottom: 20px;">
+        <a href="/" class="primary-btn" style="display: inline-block; text-align: center; text-decoration: none; width: auto; padding: 12px 24px;">
+            <i data-feather="arrow-left" style="vertical-align: middle; margin-right: 8px;"></i>
+            Back to Home
+        </a>
+    </div>
+
+    <!-- Error message section -->
+    <div th:if="${errorMessage}" class="error-message">
+        <p th:text="${errorMessage}">Error message here</p>
+        <a href="/" class="back-button">Back to Home</a>
+    </div>
+
+    <!-- Item details section -->
+    <div th:if="${item != null}">
+        <h1 th:text="${item.title}">Item Title</h1>
+
+        <div class="image-container">
+            <img th:src="@{${item.imageUrl}}" alt="Item Image" class="item-image"/>
         </div>
 
-        <!-- Show item details only if item exists -->
-        <div th:if="${item != null}">
-            <h1 th:text="${item.title}">Item Title</h1>
+        <div class="price-tag">
+            <span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 2, 'POINT')}">0.00</span> DKK
+        </div>
 
-            <div class="image-container">
-                <img th:src="@{${item.imageUrl}}" alt="Item Image" class="item-image"/>
-            </div>
+        <div class="condition-badge" th:text="${item.condition}">Condition</div>
 
-            <div class="price-tag">
-                <span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 2, 'POINT')}">0.00</span> DKK
-            </div>
+        <div class="description-container">
+            <p><strong>Description</strong></p>
+            <p th:text="${item.description}">Item description...</p>
+        </div>
 
-            <div class="condition-badge" th:text="${item.condition}">Condition</div>
+        <div class="info-container">
+            <p><strong>Category:</strong> <span th:text="${item.category}">Category</span></p>
+            <p><strong>Condition:</strong> <span th:text="${item.condition}">Condition</span></p>
+        </div>
 
-            <div class="description-container">
-                <p><strong>Description</strong></p>
-                <p th:text="${item.description}">Item description...</p>
-            </div>
-
-            <div class="info-container">
-                <p><strong>Category:</strong> <span th:text="${item.category}">Category</span></p>
-                <p><strong>Condition:</strong> <span th:text="${item.condition}">Condition</span></p>
-            </div>
+        <div style="margin-top: 20px;">
+            <a th:href="@{/checkout/{id}(id=${item.itemId})}" class="primary-btn" style="display: inline-block; width: 100%; text-align: center; text-decoration: none; margin-top: 16px;">
+                <i data-feather="shopping-cart" style="vertical-align: middle; margin-right: 8px;"></i>
+                Buy Now
+            </a>
         </div>
     </div>
+</div>
 
     <script>
         feather.replace();

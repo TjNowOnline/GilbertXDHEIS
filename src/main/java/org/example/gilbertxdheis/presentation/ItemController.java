@@ -107,5 +107,13 @@ public class ItemController {
         }
     }
 
-
+    @GetMapping("/checkout/{id}")
+    public String checkout(@PathVariable Long id, Model model) {
+        Optional<Item> item = itemRepository.findById(id);
+        if (item.isPresent()) {
+            model.addAttribute("item", item.get());
+            return "checkout"; // This will map to checkout.html
+        }
+        return "redirect:/";
+    }
 }
