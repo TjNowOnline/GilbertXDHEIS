@@ -592,7 +592,7 @@
   </div>
   <div class="overlay"></div>
 
-  <!-- Blog Post Banner -->
+<!-- Blog Post Banner -->
   <div class="blog-section" th:if="${recentBlogPosts != null && !recentBlogPosts.isEmpty()}">
     <div class="blog-banner" th:with="post=${recentBlogPosts[0]}">
       <h2 class="blog-title" th:text="${post.title}">Blog Title</h2>
@@ -603,50 +603,30 @@
   </div>
 
   <!-- Product Section -->
-  <div class="product-section">
-    <div class="section-title">Explore Luxury Fashion</div>
-    <div class="filter-bar">
-      <button class="filter-btn">Women</button>
-      <button class="filter-btn">Men</button>
-      <button class="filter-btn">Bags</button>
-      <button class="filter-btn">Clothing</button>
-      <button class="filter-btn">Shoes</button>
-    </div>
-    <div class="product-grid" th:each="item : ${items}">
-      <div class="product-card">
-        <img th:src="${item.imageUrl}" th:alt="${item.title}" class="product-image">
-        <div class="product-info">
-          <div class="product-brand" th:text="${item.category}">Category</div>
-          <div class="product-name" th:text="${item.title}">Item Name</div>
-          <div class="product-price" th:text="'$' + ${item.price}">Price</div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- App Footer -->
-  <div class="app-footer">
-    <a href="/" class="footer-btn">
-      <div class="footer-icon" data-feather="home"></div>
-      <div>Home</div>
-    </a>
-    <a href="#" class="footer-btn">
-      <div class="footer-icon" data-feather="search"></div>
-      <div>Search</div>
-    </a>
-    <a href="#" class="footer-btn">
-      <div class="footer-icon" data-feather="heart"></div>
-      <div>Favorites</div>
-    </a>
-    <a href="#" class="footer-btn">
-      <div class="footer-icon" data-feather="bell"></div>
-      <div>Notifications</div>
-    </a>
-    <a href="/profile" class="footer-btn">
-      <div class="footer-icon" data-feather="user"></div>
-      <div>Profile</div>
-    </a>
-  </div>
+<!-- App Footer -->
+<div class="app-footer">
+  <a href="/" class="footer-btn">
+    <div class="footer-icon" data-feather="home"></div>
+    <div>Home</div>
+  </a>
+  <a href="#" class="footer-btn" onclick="document.getElementById('mobileSearchForm').submit();">
+    <div class="footer-icon" data-feather="search"></div>
+    <div>Search</div>
+  </a>
+  <a href="#" class="footer-btn">
+    <div class="footer-icon" data-feather="heart"></div>
+    <div>Favorites</div>
+  </a>
+  <a href="#" class="footer-btn">
+    <div class="footer-icon" data-feather="bell"></div>
+    <div>Notifications</div>
+  </a>
+  <a href="/profile" class="footer-btn">
+    <div class="footer-icon" data-feather="user"></div>
+    <div>Profile</div>
+  </a>
+</div>
 </div>
 
 <!-- Desktop View (≥1024px) -->
@@ -665,10 +645,14 @@
         <a href="/sell" class="nav-link">Sell</a>
       </div>
       <div class="user-actions">
-        <div class="search-bar">
-          <input type="text" placeholder="Search for items...">
-          <div data-feather="search"></div>
-        </div>
+    <form id="desktopSearchForm" action="/search" method="get" class="search-bar">
+        <input type="text" name="query" placeholder="Search for items..." th:value="${searchQuery}">
+        <button type="submit" style="background: none; border: none; cursor: pointer;">
+            <div data-feather="search"></div>
+        </button>
+    </form>
+    <!-- rest of the user-actions content -->
+</div>
         <a href="#" class="footer-btn">
           <div class="footer-icon" data-feather="heart"></div>
           <div>Favorites</div>
@@ -685,8 +669,13 @@
     </nav>
   </header>
 
+  <!-- Add this right after the header or at the top of your main content area -->
+  <div th:if="${errorMessage}" class="error-alert" style="background-color: #ffebee; color: #c62828; padding: 10px; margin: 10px; border-radius: 4px; text-align: center;">
+    <p th:text="${errorMessage}">Error message</p>
+  </div>
+
   <!-- Mobile Menu -->
-  <div class="mobile-menu">
+  <div class="mobile-menu" style="left: -100%;">
     <div class="close-menu">
       <label for="desktop-menu-toggle" class="close-btn">×</label>
     </div>
@@ -703,7 +692,7 @@
       </button>
     </div>
   </div>
-  <div class="overlay"></div>
+  <div class="overlay" style="display:none;"></div>
 
   <!-- Blog Post Banner -->
   <section class="blog-section" th:if="${recentBlogPosts != null && !recentBlogPosts.isEmpty()}">
@@ -726,14 +715,13 @@
       <button class="filter-btn">Shoes</button>
       <button class="filter-btn">Accessories</button>
     </div>
-    <div class="product-grid" th:each="item : ${items}">
-      <div class="product-card">
-        <img th:src="${item.imageUrl}" th:alt="${item.title}" class="product-image">
-        <div class="product-info">
-          <div class="product-brand" th:text="${item.category}">Category</div>
-          <div class="product-name" th:text="${item.title}">Item Name</div>
-          <div class="product-price" th:text="'$' + ${item.price}">Price</div>
-        </div>
+    <div class="items-container">
+      <div th:each="item : ${items}" class="item-card">
+        <a th:href="@{/item/{id}(id=${item.itemId})}">
+          <img th:src="@{${item.imageUrl}}" alt="Image" class="item-img"/>
+          <h2 th:text="${item.title}"></h2>
+          <p th:text="'$' + ${item.price}"></p>
+        </a>
       </div>
     </div>
   </section>

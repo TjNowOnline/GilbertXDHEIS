@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class JdbcItemRepository implements CRUDRepository {
@@ -113,5 +114,28 @@ public class JdbcItemRepository implements CRUDRepository {
                 );
             }
         };
+    }
+
+    public Optional<Item> findById(Long id) {
+        String sql = "SELECT * FROM items WHERE item_id = ?";
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, itemRowMapper(), id));
+        } catch (Exception e) {
+            System.err.println("Error loading item with ID: " + id + ". Exception: " + e.getMessage());
+            return Optional.empty();
+        }
+    }
+    public List<Item> searchItems(String query) {
+        String searchQuery = "SELECT * FROM items WHERE " +
+                "LOWER(title) LIKE LOWER(?) OR " +
+                "LOWER(description) LIKE LOWER(?) OR " +
+                "LOWER(category) LIKE LOWER(?)";
+
+        String searchPattern = "%" + query + "%";
+        return jdbcTemplate.query(
+            searchQuery,
+            itemRowMapper,
+            searchPattern, searchPattern, searchPattern
+        );
     }
 }

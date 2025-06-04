@@ -1,14 +1,15 @@
-
 package org.example.gilbertxdheis.presentation;
 
 import org.example.gilbertxdheis.application.BlogPostService;
 import org.example.gilbertxdheis.domain.BlogPost;
+import org.example.gilbertxdheis.application.ItemService;
 import org.example.gilbertxdheis.domain.Item;
 import org.example.gilbertxdheis.infrastructure.JdbcItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ItemController {
@@ -30,6 +32,9 @@ public class ItemController {
 
     @Autowired
     private BlogPostService blogPostService;
+
+    @Autowired
+    private ItemService itemService;
 
     @GetMapping("/sell")
     public String showSellForm(HttpSession session, RedirectAttributes redirectAttributes) {
@@ -99,4 +104,20 @@ public class ItemController {
         }
         return "/images/default.jpg"; // Fallback image
     }
+
+
+    @GetMapping("/item/{id}")
+    public String viewItem(@PathVariable Long id, Model model, RedirectAttributes redirectAttributes) {
+        Optional<Item> optionalItem = itemRepository.findById(id);
+        if (optionalItem.isPresent()) {
+            model.addAttribute("item", optionalItem.get());
+            return "item-detail";
+        } else {
+            // Add error message and redirect to home page
+            redirectAttributes.addFlashAttribute("errorMessage", "Item not found");
+            return "redirect:/";
+        }
+    }
+
+
 }
