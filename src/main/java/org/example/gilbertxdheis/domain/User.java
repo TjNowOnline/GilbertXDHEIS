@@ -12,21 +12,19 @@ public class User {
     private String businessId;
     private String role = "USER";
     private boolean isVerified;
-    private boolean isAdmin;
 
-    public User(int userId, String username, String email, String firstName, String lastName, String password, String adress, String postalCode, String businessId, String role, boolean isVerified, boolean isAdmin) {
+    public User(int userId, String username, String email, String firstName, String lastName, String password, String address, String postalCode, String businessId, String role, boolean isVerified) {
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.address = adress;
+        this.address = address;
         this.postalCode = postalCode;
         this.businessId = businessId;
         this.role = role;
         this.isVerified = isVerified;
-        this.isAdmin = isAdmin;
     }
 
     public User() {
@@ -85,8 +83,8 @@ public class User {
         return address;
     }
 
-    public void setAddress(String adress) {
-        this.address = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPostalCode() {
@@ -119,14 +117,6 @@ public class User {
 
     public void setVerified(boolean verified) {
         isVerified = verified;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
     }
 
     @Override

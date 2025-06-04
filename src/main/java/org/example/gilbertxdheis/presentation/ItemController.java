@@ -1,6 +1,8 @@
 
 package org.example.gilbertxdheis.presentation;
 
+import org.example.gilbertxdheis.application.BlogPostService;
+import org.example.gilbertxdheis.domain.BlogPost;
 import org.example.gilbertxdheis.domain.Item;
 import org.example.gilbertxdheis.infrastructure.JdbcItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +19,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ItemController {
 
     @Autowired
     private JdbcItemRepository itemRepository;
+
+    @Autowired
+    private BlogPostService blogPostService;
 
     @GetMapping("/sell")
     public String showSellForm(HttpSession session, RedirectAttributes redirectAttributes) {
@@ -73,6 +80,11 @@ public class ItemController {
     @GetMapping("/")
     public String home(Model model) {
         Iterable<Item> items = itemRepository.findAll();
+        List<BlogPost> blogPosts = blogPostService.getRecentBlogPosts(5);
+        if (blogPosts == null) {
+            blogPosts = new ArrayList<>(); // Initialize to avoid null
+        }
+        model.addAttribute("recentBlogPosts", blogPosts); // Correct attribute name
         model.addAttribute("items", items);
         return "index"; // Maps to index.html
     }

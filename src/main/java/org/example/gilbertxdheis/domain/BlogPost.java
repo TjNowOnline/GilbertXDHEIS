@@ -8,13 +8,15 @@ public class BlogPost {
     private String content;
     private int createdBy;
     private Date timestamp;
+    private String imageUrl;
 
-    public BlogPost(int postId, String title, String content, int createdBy, Date timestamp) {
+    public BlogPost(int postId, String title, String content, int createdBy, Date timestamp, String imageUrl) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.createdBy = createdBy;
         this.timestamp = timestamp;
+        this.imageUrl = imageUrl;
     }
 
     public int getPostId() {
@@ -55,5 +57,13 @@ public class BlogPost {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
