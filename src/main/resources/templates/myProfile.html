@@ -669,7 +669,7 @@
   <div class="profile-section">
     <div class="profile-header">
       <div class="profile-picture">
-        <img th:src="${profile.profilePicture} ?: 'https://via.placeholder.com/60/0a5a36/ffffff?text=?'" alt="Default Profile" onerror="this.src='https://via.placeholder.com/60/0a5a36/ffffff?text=?'">
+        <img src="/uploads/default_profile.png" alt="Profile Picture">
       </div>
       <div class="seller-details">
         <div class="seller-username" th:text="${profile.username}">MyUsername</div>
@@ -845,7 +845,7 @@
   <section class="profile-section">
     <div class="profile-header">
       <div class="profile-picture">
-        <img th:src="${profile.profilePicture} ?: 'https://via.placeholder.com/80/0a5a36/ffffff?text=?'" alt="Default Profile" onerror="this.src='https://via.placeholder.com/80/0a5a36/ffffff?text=?'">
+        <img src="/uploads/default_profile.png" alt="Profile Picture">
       </div>
       <div class="seller-details">
         <div class="seller-username" th:text="${profile.username}">MyUsername</div>

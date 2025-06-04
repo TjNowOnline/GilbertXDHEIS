@@ -585,7 +585,6 @@
 
         .form-group input[type="text"],
         .form-group textarea,
-
         .form-group input[type="file"] {
             width: 100%;
             padding: 8px;
@@ -742,7 +741,7 @@
     <div class="profile-section">
         <div class="profile-header">
             <div class="profile-picture">
-                <img th:src="${profile.profilePicture} ?: 'https://via.placeholder.com/60/0a5a36/ffffff?text=?'" alt="Default Profile" onerror="this.src='https://via.placeholder.com/60/0a5a36/ffffff?text=?'">
+                <img src="/uploads/default_profile.png" alt="Profile Picture">
             </div>
             <div class="seller-details">
                 <div class="seller-username" th:text="${profile.username}">MyUsername</div>
@@ -1033,7 +1032,7 @@
     <section class="profile-section">
         <div class="profile-header">
             <div class="profile-picture">
-                <img th:src="${profile.profilePicture} ?: 'https://via.placeholder.com/80/0a5a36/ffffff?text=?'" alt="Default Profile" onerror="this.src='https://via.placeholder.com/80/0a5a36/ffffff?text=?'">
+                <img src="/uploads/default_profile.png" alt="Profile Picture">
             </div>
             <div class="seller-details">
                 <div class="seller-username" th:text="${profile.username}">MyUsername</div>
@@ -1242,8 +1241,8 @@
                     </ul>
                 </div>
                 <div th:if="${moderators == null or moderators.isEmpty()}" class="no-feedback">No moderators found.</div>
+            </div>
         </div>
-    </div>
     </section>
 
     <footer>
