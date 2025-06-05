@@ -338,37 +338,61 @@
       font-size: 14px;
     }
 
-    .items-grid {
-      display: grid;
-      gap: 15px;
+    /* Reset any conflicting items-container styles */
+    .items-container {
+      display: none; /* Disable to avoid conflicts */
     }
 
+    /* Style for items-grid to enforce 4 columns */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* 4 columns of equal width */
+      gap: 20px; /* Space between items */
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Ensure item-card takes full width of its grid cell */
     .item-card {
-      background: var(--white);
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
+      display: grid;
+      grid-template-rows: auto 1fr; /* Image and content */
+      width: 100%;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       overflow: hidden;
     }
 
-    .item-card img {
+    .item-card a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .item-img {
       width: 100%;
-      height: 200px;
+      aspect-ratio: 1;
       object-fit: cover;
+      display: block;
     }
 
     .item-info {
-      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      padding: 12px;
     }
 
-    .item-info h3 {
-      font-size: 14px;
-      margin-bottom: 5px;
+    .item-card h3 {
+      margin: 0;
+      font-size: 16px;
       color: var(--dark-green);
     }
 
-    .item-info p {
-      font-size: 12px;
-      color: var(--dark-brown);
+    .item-card p {
+      margin: 4px 0 0;
+      font-size: 18px;
+      color: var(--dark-green);
     }
 
     .about-content {
@@ -416,6 +440,8 @@
     .no-feedback {
       font-size: 14px;
       color: var(--dark-brown);
+      text-align: center;
+      padding: 20px;
     }
 
     /* Mobile Footer */
@@ -554,10 +580,6 @@
       .profile-section {
         padding: 30px 20px;
       }
-
-      .items-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
     }
 
     @media (min-width: 1024px) {
@@ -567,12 +589,13 @@
 
       .container {
         display: block;
-        max-width: 100%;
+        max-width: 1400px !important;
+        margin: 0 auto;
       }
 
       .profile-section {
         padding: 40px 0;
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
       }
 
@@ -596,19 +619,11 @@
       .edit-profile-btn {
         padding: 10px 16px;
       }
-
-      .items-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .footer-container {
-        grid-template-columns: repeat(4, 1fr);
-      }
     }
 
     @media (min-width: 1200px) {
       .container {
-        max-width: 100%;
+        max-width: 1400px !important;
       }
     }
 
@@ -618,7 +633,24 @@
       }
 
       .items-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr); /* 2 columns for mobile */
+        gap: 15px;
+        padding: 15px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .items-grid {
+        grid-template-columns: 1fr; /* 1 column for very small screens */
+        gap: 10px;
+        padding: 10px;
+      }
+    }
+
+    /* Remove max-width restrictions for smaller screens to prevent conflicts */
+    @media (min-width: 576px), (min-width: 768px) {
+      .container {
+        max-width: none;
       }
     }
   </style>
@@ -669,7 +701,7 @@
   <div class="profile-section">
     <div class="profile-header">
       <div class="profile-picture">
-        <img src="/uploads/default_profile.png" alt="Profile Picture">
+        <img src="/Uploads/default_profile.png" alt="Profile Picture">
       </div>
       <div class="seller-details">
         <div class="seller-username" th:text="${profile.username}">MyUsername</div>
@@ -699,30 +731,26 @@
             <option>Price: High to Low</option>
           </select>
         </div>
-        <div class="items-grid">
-          <div th:if="${itemsForSale != null and !itemsForSale.isEmpty()}">
-            <div class="item-card" th:each="item : ${itemsForSale}">
-              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}">
-              <div class="item-info">
-                <h3 th:text="${item.title}">Item Title</h3>
-                <p th:text="'$' + ${item.price}">0.00</p>
-              </div>
+        <div class="items-grid" th:if="${itemsForSale != null and !itemsForSale.isEmpty()}">
+          <div class="item-card" th:each="item : ${itemsForSale}">
+            <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}" class="item-img">
+            <div class="item-info">
+              <h3 th:text="${item.title}">Item Title</h3>
+              <p th:text="'$' + ${item.price}">0.00</p>
             </div>
           </div>
-          <div th:if="${itemsForSale == null or itemsForSale.isEmpty()}" class="no-feedback">No items for sale.</div>
         </div>
+        <div th:if="${itemsForSale == null or itemsForSale.isEmpty()}" class="no-feedback">No items for sale.</div>
       </div>
       <div class="tab-content" id="sold-items-mobile">
         <div class="sold-items-section">
           <h2>Sold Items</h2>
-          <div th:if="${profile.soldItems != null and !profile.soldItems.isEmpty()}">
-            <div class="items-grid">
-              <div class="item-card" th:each="item : ${profile.soldItems}">
-                <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}">
-                <div class="item-info">
-                  <h3 th:text="${item.title}">Item Title</h3>
-                  <p th:text="'Sold for $' + ${item.price}">0.00</p>
-                </div>
+          <div class="items-grid" th:if="${profile.soldItems != null and !profile.soldItems.isEmpty()}">
+            <div class="item-card" th:each="item : ${profile.soldItems}">
+              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}" class="item-img">
+              <div class="item-info">
+                <h3 th:text="${item.title}">Item Title</h3>
+                <p th:text="'Sold for $' + ${item.price}">0.00</p>
               </div>
             </div>
           </div>
@@ -845,7 +873,7 @@
   <section class="profile-section">
     <div class="profile-header">
       <div class="profile-picture">
-        <img src="/uploads/default_profile.png" alt="Profile Picture">
+        <img src="/Uploads/default_profile.png" alt="Profile Picture">
       </div>
       <div class="seller-details">
         <div class="seller-username" th:text="${profile.username}">MyUsername</div>
@@ -875,30 +903,26 @@
             <option>Price: High to Low</option>
           </select>
         </div>
-        <div class="items-grid">
-          <div th:if="${itemsForSale != null and !itemsForSale.isEmpty()}">
-            <div class="item-card" th:each="item : ${itemsForSale}">
-              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}">
-              <div class="item-info">
-                <h3 th:text="${item.title}">Item Title</h3>
-                <p th:text="'$' + ${item.price}">0.00</p>
-              </div>
+        <div class="items-grid" th:if="${itemsForSale != null and !itemsForSale.isEmpty()}">
+          <div class="item-card" th:each="item : ${itemsForSale}">
+            <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}" class="item-img">
+            <div class="item-info">
+              <h3 th:text="${item.title}">Item Title</h3>
+              <p th:text="'$' + ${item.price}">0.00</p>
             </div>
           </div>
-          <div th:if="${itemsForSale == null or itemsForSale.isEmpty()}" class="no-feedback">No items for sale.</div>
         </div>
+        <div th:if="${itemsForSale == null or itemsForSale.isEmpty()}" class="no-feedback">No items for sale.</div>
       </div>
       <div class="tab-content" id="sold-items">
         <div class="sold-items-section">
           <h2>Sold Items</h2>
-          <div th:if="${profile.soldItems != null and !profile.soldItems.isEmpty()}">
-            <div class="items-grid">
-              <div class="item-card" th:each="item : ${profile.soldItems}">
-                <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}">
-                <div class="item-info">
-                  <h3 th:text="${item.title}">Item Title</h3>
-                  <p th:text="'Sold for $' + ${item.price}">0.00</p>
-                </div>
+          <div class="items-grid" th:if="${profile.soldItems != null and !profile.soldItems.isEmpty()}">
+            <div class="item-card" th:each="item : ${profile.soldItems}">
+              <img th:src="${item.imageUrl} ?: 'https://via.placeholder.com/300'" th:alt="${item.title}" class="item-img">
+              <div class="item-info">
+                <h3 th:text="${item.title}">Item Title</h3>
+                <p th:text="'Sold for $' + ${item.price}">0.00</p>
               </div>
             </div>
           </div>
@@ -930,46 +954,42 @@
     </div>
   </section>
 
-  <!-- Footer -->
+  <!-- Desktop Footer -->
   <footer>
     <div class="footer-container">
       <div>
         <div class="footer-logo">Gilbert</div>
-        <p class="footer-about">Sustainable luxury marketplace for authenticated pre-owned goods.</p>
+        <div class="footer-about">
+          Gilbert is your go-to platform for buying and selling unique items with ease and confidence.
+        </div>
         <div class="footer-social">
-          <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
-          <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
           <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
       <div>
-        <div class="footer-title">Shop</div>
+        <div class="footer-title">Quick Links</div>
         <ul class="footer-links">
+          <li><a href="/">Home</a></li>
           <li><a href="#">Women</a></li>
           <li><a href="#">Men</a></li>
           <li><a href="#">Brands</a></li>
-          <li><a href="#">New Arrivals</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="footer-title">Sell</div>
-        <ul class="footer-links">
-          <li><a href="/sell">How to Sell</a></li>
-          <li><a href="#">Seller Guide</a></li>
-          <li><a href="#">Authentication Process</a></li>
         </ul>
       </div>
       <div>
         <div class="footer-title">Support</div>
         <ul class="footer-links">
           <li><a href="#">FAQ</a></li>
-          <li><a href="#">Returns</a></li>
           <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Shipping</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Privacy Policy</a></li>
         </ul>
       </div>
     </div>
-    <div class="copyright">© 2025 Gilbert. All rights reserved.</div>
+    <div class="copyright">
+      © 2025 Gilbert. All rights reserved.
+    </div>
   </footer>
 </div>
 
@@ -981,28 +1001,25 @@
 <script>
   feather.replace();
 
-  // Mobile menu toggle
   const menuToggle = document.querySelector('.menu-toggle');
   const mobileMenu = document.querySelector('.mobile-menu');
-  const closeBtn = document.querySelector('.close-btn');
   const overlay = document.querySelector('.overlay');
+  const closeBtn = document.querySelector('.close-btn');
 
-  if (menuToggle && mobileMenu && closeBtn && overlay) {
-    menuToggle.addEventListener('click', () => {
-      mobileMenu.style.left = '0';
-      overlay.style.display = 'block';
-    });
+  menuToggle.addEventListener('click', () => {
+    mobileMenu.style.left = '0';
+    overlay.style.display = 'block';
+  });
 
-    closeBtn.addEventListener('click', () => {
-      mobileMenu.style.left = '-100%';
-      overlay.style.display = 'none';
-    });
+  closeBtn.addEventListener('click', () => {
+    mobileMenu.style.left = '-100%';
+    overlay.style.display = 'none';
+  });
 
-    overlay.addEventListener('click', () => {
-      mobileMenu.style.left = '-100%';
-      overlay.style.display = 'none';
-    });
-  }
+  overlay.addEventListener('click', () => {
+    mobileMenu.style.left = '-100%';
+    overlay.style.display = 'none';
+  });
 </script>
 </body>
 </html>
