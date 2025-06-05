@@ -14,7 +14,7 @@ public class OfferRestController {
         this.offerService = offerService;
     }
 
-    @PostMapping("/item/{itemId/offers")
+    @PostMapping("/item/{itemId}/offers")
     public ResponseEntity<String>createOffer(
             @PathVariable int itemId,
             @RequestParam double proposedPrice,
