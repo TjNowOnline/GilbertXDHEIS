@@ -54,7 +54,7 @@ public class BlogController {
                 imageUrl = "/images/placeholder-blog.jpg"; // Fallback to default if upload fails
             }
 
-            BlogPost blogPost = new BlogPost(0, title, content, createdBy, timestamp, imageUrl);
+            BlogPost blogPost = new BlogPost(0L, title, content, createdBy, timestamp, imageUrl);
             blogPostService.createBlogPost(blogPost);
             redirectAttributes.addFlashAttribute("success", "Blog post created successfully!");
             return "redirect:/my-profile"; // Redirect to the profile page
