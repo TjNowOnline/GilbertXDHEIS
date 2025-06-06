@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offers for Item - Gilbert</title>
+    <style>
+        :root {
+            --dark-green: #004224;
+            --off-white: #f8f0e5;
+            --dark-brown: #423a26;
+            --white: #f8f0e5;
+            --light-green: #0a5a36;
+            --border-color: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Playfair Display', serif;
+        }
+
+        body {
+            background-color: var(--off-white);
+            color: var(--dark-green);
+            line-height: 1.6;
+        }
+
+        /* Container Styles */
+        .offers-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: var(--white);
+            min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            color: var(--dark-green);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Table Styles */
+        .offers-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .offers-table th,
+        .offers-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .offers-table th {
+            background-color: var(--dark-green);
+            color: var(--white);
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .offers-table td {
+            font-size: 14px;
+            color: var(--dark-green);
+        }
+
+        /* Button Styles */
+        .primary-btn {
+            background-color: var(--dark-green);
+            color: var(--white);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+            margin-right: 5px;
+        }
+
+        .primary-btn:hover {
+            background-color: var(--light-green);
+        }
+
+        .primary-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--dark-green);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+
+        .back-button:hover {
+            background-color: var(--light-green);
+        }
+
+        /* Mobile Navigation */
+        .app-navbar {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .app-logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        /* Responsive Styles */
+        @media (min-width: 768px) {
+            .offers-container {
+                max-width: 720px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .offers-container {
+                max-width: 960px;
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .primary-btn {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            .back-button {
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+<nav class="app-navbar">
+    <a href="/" class="app-logo">Gilbert</a>
+</nav>
+
+<div class="offers-container">
+    <!-- Back to Dashboard button -->
+    <div style="margin-bottom: 20px;">
+        <a href="/dashboard" class="back-button">
+            <i data-feather="arrow-left" style="vertical-align: middle; margin-right: 8px;"></i>
+            Back to Dashboard
+        </a>
+    </div>
+
+    <h1>Offers for the Item</h1>
+
+    <table class="offers-table">
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Proposed Price</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="offer : ${offers}">
+            <td th:text="${offer.userId}"></td>
+            <td th:text="${#numbers.formatDecimal(offer.proposedPrice, 0, 'COMMA', 2, 'POINT')} + ' DKK'"></td>
+            <td th:text="${offer.status}"></td>
+            <td>
+                <form th:action="@{/offer/{offerId}/respond(offerId=${offer.offerId})}" method="post" style="display: inline;">
+                    <button type="submit" name="action" value="accept" class="primary-btn" th:disabled="${offer.status != 'PENDING'}">Accept</button>
+                    <button type="submit" name="action" value="decline" class="primary-btn" th:disabled="${offer.status != 'PENDING'}">Decline</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    feather.replace();
+</script>
+</body>
+</html>

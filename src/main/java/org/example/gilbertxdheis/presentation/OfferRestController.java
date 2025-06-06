@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/rest")
 public class OfferRestController {
     private final OfferService offerService;
 
@@ -14,7 +14,7 @@ public class OfferRestController {
         this.offerService = offerService;
     }
 
-    @PostMapping("/item/{itemId}/offers")
+    @PostMapping("/rest/item/{itemId}/offers")
     public ResponseEntity<String>createOffer(
             @PathVariable int itemId,
             @RequestParam double proposedPrice,

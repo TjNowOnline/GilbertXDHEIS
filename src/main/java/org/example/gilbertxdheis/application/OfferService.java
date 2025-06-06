@@ -40,6 +40,13 @@ public class OfferService {
         Offer newOffer = new Offer(0, userId, itemId, proposedPrice, "PENDING");
         offerRepository.save(newOffer);
     }
+
+    public void acceptOffer(int offerId) {
+        offerRepository.updateStatus(offerId, "ACCEPTED");
+    }
+    public void rejectOffer(int offerId) {
+        offerRepository.updateStatus(offerId, "REJECTED");
+    }
 }
 
 
