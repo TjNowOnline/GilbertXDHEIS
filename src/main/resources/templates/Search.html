@@ -1,0 +1,39 @@
+/
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Search for items</title>
+    </head>
+    <body>
+    <h1>Item search</h1>
+
+    <input type="text" id="searchInput" placeholder="Søg...">
+    <button onclick="searchItems()">Søg</button>
+
+    <ul id="resultList"></ul>
+
+    <script>
+        async function searchItems() {
+            const query = document.getElementById('searchInput').value;
+            const response = await fetch(`/api/items/search?query=` + encodeURIComponent(query));
+            const items = await response.json();
+
+            const list = document.getElementById('resultList');
+            list.innerHTML = ''; // Ryd gamle resultater
+
+            if (items.length === 0) {
+                list.innerHTML = '<li>No results</li>';
+            }
+
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.title} - ${item.description} (${item.category})`;
+                list.appendChild(li);
+            });
+        }
+
+        </>
+</script>
+</body>
+</html>
