@@ -3,15 +3,15 @@ package org.example.gilbertxdheis.domain;
 import java.util.Date;
 
 public class BlogPost {
-    private int postId;
+    private Long id;
     private String title;
     private String content;
     private int createdBy;
     private Date timestamp;
     private String imageUrl;
 
-    public BlogPost(int postId, String title, String content, int createdBy, Date timestamp, String imageUrl) {
-        this.postId = postId;
+    public BlogPost(Long Id, String title, String content, int createdBy, Date timestamp, String imageUrl) {
+        this.id = Id;
         this.title = title;
         this.content = content;
         this.createdBy = createdBy;
@@ -19,12 +19,12 @@ public class BlogPost {
         this.imageUrl = imageUrl;
     }
 
-    public int getPostId() {
-        return postId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

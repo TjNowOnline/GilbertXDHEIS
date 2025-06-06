@@ -1,9 +1,12 @@
 package org.example.gilbertxdheis.presentation;
 
+import org.example.gilbertxdheis.application.BlogPostService;
+import org.example.gilbertxdheis.domain.BlogPost;
 import org.example.gilbertxdheis.domain.Item;
 import org.example.gilbertxdheis.domain.Profile;
 import org.example.gilbertxdheis.application.ProfileService;
 import org.example.gilbertxdheis.domain.User;
+import org.example.gilbertxdheis.infrastructure.JdbcBlogPostRepository;
 import org.example.gilbertxdheis.infrastructure.JdbcItemRepository;
 import org.example.gilbertxdheis.infrastructure.JdbcUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.List;
 
 @Controller
@@ -21,10 +28,16 @@ public class AdminModeratorController {
     private ProfileService profileService;
 
     @Autowired
+    private BlogPostService blogPostService;
+
+    @Autowired
     private JdbcItemRepository itemRepository;
 
     @Autowired
     private JdbcUserRepository userRepository;
+
+    @Autowired
+    private JdbcBlogPostRepository blogRepository;
 
     @Autowired
     private HttpSession session;
@@ -57,8 +70,22 @@ public class AdminModeratorController {
         model.addAttribute("admins", admins);
         model.addAttribute("moderators", moderators);
 
+        // Fetch all blog posts
+        List<BlogPost> blogPosts = blogRepository.findAll();
+        System.out.println("BlogPosts found: " + blogPosts.size());
+        model.addAttribute("blogPosts", blogPosts);
+
         return "admin"; // Maps to admin.html
     }
+
+    @PostMapping("/admin/blog/delete/{id}")
+    public String deleteBlogPost(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        blogPostService.deleteBlogPost(id);
+        redirectAttributes.addFlashAttribute("success", "Blog post deleted successfully!");
+        return "redirect:/admin";
+    }
+
+
 
     @GetMapping("/moderator")
     public String moderatorPage(Model model) {
