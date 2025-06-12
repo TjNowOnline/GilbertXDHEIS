@@ -28,24 +28,6 @@ public class UserService {
         System.out.println(user);
     }
 
-    public User getLoggedInUser() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof org.springframework.security.core.userdetails.User) {
-            String email = ((org.springframework.security.core.userdetails.User) principal).getUsername(); // Username here represents the email
-            System.out.println("Fetching user with email: " + email); // Debug log
-
-            return userRepository.findByEmail(email)
-                    .orElseThrow(() -> {
-                        System.err.println("User not found with email: " + email); // Error log
-                        return new IllegalArgumentException("User not found: " + email);
-                    });
-        } else if (principal instanceof String) {
-            throw new IllegalArgumentException("Anonymous user is not logged in.");
-        } else {
-            throw new IllegalArgumentException("Unexpected principal type: " + principal.getClass().getName());
-        }
-    }
 
     public User findByUsername(String username) {
         return userRepository.findByEmail(username)

@@ -362,13 +362,38 @@
     .blog-banner {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 0; /* Fjern padding for at udnytte billedets fulde bredde */
       border-radius: 8px;
       background: var(--white);
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       position: relative;
       overflow: hidden;
     }
+
+    /* Billedet */
+    .blog-banner img {
+      width: 100%;
+      height: 400px; /* Fast højde til 16:9 ratio på typisk desktop */
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    /* Titel og tekst ovenpå billedet (hvis ønsket) */
+    .blog-banner .blog-title {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: var(--off-white);
+      font-size: 2rem;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    .blog-banner .blog-content,
+    .blog-banner .blog-timestamp {
+      display: none; /* skjul tekst under billedet for rent banner */
+    }
+
 
     .blog-image {
       width: 100%;
@@ -1108,7 +1133,7 @@
   <div class="blog-section" th:if="${recentBlogPosts != null && !recentBlogPosts.isEmpty()}">
     <div class="blog-banner" th:with="post=${recentBlogPosts[0]}">
       <h2 class="blog-title" th:text="${post.title}">Blog Title</h2>
-      <img th:src="${post.imageUrl}" alt="Blog Image" class="img-fluid">
+      <img th:src="${post.imageUrl}" alt="Blog Image" class="blog-banner-image">
       <p class="blog-content" th:text="${post.content}">Blog Content</p>
       <small class="blog-timestamp" th:text="${#dates.format(post.timestamp, 'MMM dd, yyyy')}">Timestamp</small>
     </div>
@@ -1348,7 +1373,7 @@
   <section class="blog-section" th:if="${recentBlogPosts != null && !recentBlogPosts.isEmpty()}">
     <div class="blog-banner" th:with="post=${recentBlogPosts[0]}">
       <h2 class="blog-title" th:text="${post.title}">Blog Title</h2>
-      <img th:src="${post.imageUrl}" alt="Blog Image" class="img-fluid">
+      <img th:src="${post.imageUrl}" alt="Blog Image" class="blog-banner-image">
       <p class="blog-content" th:text="${post.content}">Blog Content</p>
       <small class="blog-timestamp" th:text="${#dates.format(post.timestamp, 'MMM dd, yyyy')}">Timestamp</small>
     </div>
